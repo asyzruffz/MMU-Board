@@ -10,6 +10,10 @@ public class MainFrame extends JFrame implements ActionListener, MouseListener
 	JButton bttn;
 	JFileChooser fch;
 	
+	private Login loginSession = new Login(new FlowLayout());
+	private Operating operatingSession = new Operating(new GridLayout(1, 1));
+	private Session currentSession;
+	
 	public MainFrame(String title)
 	{
 		super(title);
@@ -20,6 +24,10 @@ public class MainFrame extends JFrame implements ActionListener, MouseListener
 		fch = new JFileChooser();
 		WindowUtilities.setNativeLookAndFeel();
 		SwingUtilities.updateComponentTreeUI(fch);
+		SwingUtilities.updateComponentTreeUI(loginSession);
+		SwingUtilities.updateComponentTreeUI(operatingSession);
+		currentSession = loginSession;
+		setMenus();
 		setPanels();
 	}
 	
@@ -101,8 +109,6 @@ public class MainFrame extends JFrame implements ActionListener, MouseListener
 	
 	public void setPanels()
 	{
-		setMenus();
-		
 		Container content = getContentPane();
 		content.setBackground(Color.WHITE);
 		content.setLayout(new BorderLayout());
@@ -116,42 +122,14 @@ public class MainFrame extends JFrame implements ActionListener, MouseListener
 		toolBar.add(bttn);
 		content.add(toolBar, BorderLayout.PAGE_START);
 		
-		JTextArea tree = new JTextArea();
-		JScrollPane treeScrollPane = new JScrollPane(tree);
-		tree.setEditable(false);
-		JPanel middlePanel = new JPanel();
-		//middlePanel.setLayout(new GridLayout(2, 0));
-		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.PAGE_AXIS));
-		JTextArea note = new JTextArea(50, 0);
-		JScrollPane textScrollPane = new JScrollPane(note);
-		middlePanel.add(textScrollPane);
-		JPanel messagePanel = new JPanel();
-		JTextField messageBar = new JTextField("Enter your post here...");
-		messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.LINE_AXIS));
-		messagePanel.add(messageBar);
-		messagePanel.add(new JButton("Post"));
-		middlePanel.add(messagePanel);
-		
-		
-		//Create a split pane with the two scroll panes in it.
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-								   treeScrollPane, middlePanel);
-		splitPane.setOneTouchExpandable(true);
-		splitPane.setDividerLocation(200);
-		splitPane.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
-															   BorderFactory.createLoweredBevelBorder()));
-		//Provide minimum sizes for the two components in the split pane
-		Dimension minimumSize = new Dimension(200, 50);
-		treeScrollPane.setMinimumSize(minimumSize);
-		textScrollPane.setMinimumSize(minimumSize);
-		
-		//middlePanel.add(splitPane);
-		//content.add(middlePanel, BorderLayout.CENTER);
-		content.add(splitPane, BorderLayout.CENTER);
+		currentSession.setSourceListener(this);
+		content.add(currentSession, BorderLayout.CENTER);
+		//if(loginSession.accountChecked())
+		//	content.add(operatingSession, BorderLayout.CENTER);
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));
-		bottomPanel.add(new JTextField());
+		bottomPanel.add(new JTextField(15));
 		bottomPanel.add(Box.createHorizontalStrut(5));
 		bottomPanel.add(new JButton("Search"));
 		bottomPanel.add(Box.createHorizontalStrut(5));
@@ -192,6 +170,11 @@ public class MainFrame extends JFrame implements ActionListener, MouseListener
 				
 				JOptionPane.showMessageDialog(this, "Can't save anything yet!");
             }
+		}
+		else if(btnText.equals("Sign in"))
+		{
+			currentSession = operatingSession;
+			System.out.println("sign in");
 		}
 		else
 		{
