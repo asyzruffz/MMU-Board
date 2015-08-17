@@ -13,6 +13,7 @@ public class Apps
 	
 	public Apps()
 	{
+		mFrame.setExtendedState(MainFrame.MAXIMIZED_BOTH);
 		mFrame.setVisible(true);
 		System.out.println("Apps initialized!");
 	}
@@ -23,13 +24,13 @@ public class Apps
 		{
 			//mFrame.run();
 		}
-		
-		//System.out.println("Apps destroyed!");
 	}
 	
 	public static void main(String[] args)
 	{
 		Apps myApps = new Apps();
 		//myApps.run();
+		
+		//System.out.println("Apps destroyed!");
 	}
 }

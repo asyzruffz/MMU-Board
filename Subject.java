@@ -19,7 +19,7 @@ public class Subject
 		this.subjName = subjName;
 	}
 	
-	public Discussion getDiscussioin(int id){
+	public Discussion getDiscussion(int id){
 		return discussionList.get(id);
 	}
 	
@@ -30,4 +30,8 @@ public class Subject
 	public void removeDiscussion(int id){
 		discussionList.remove(id);
 	}
+	
+	public String toString() {
+        return subjName;
+    }
 }

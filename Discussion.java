@@ -2,13 +2,16 @@ import java.util.*;
 
 public class Discussion
 {
-	private static int discID;
+	private static int count;
+	private int discID;
 	private String discTitle = "";
 	private ArrayList<Comment> commentList = new ArrayList<Comment>();
 	
 	public Discussion() {}
 	
 	public Discussion(String title){
+		count++;
+		discID = count;
 		discTitle = title;
 	}
 	
@@ -16,11 +19,11 @@ public class Discussion
 		return discID;
 	}
 	
-	public getTitle(){
+	public String getTitle(){
 		return discTitle;
 	}
 	
-	public setTitle(String title){
+	public void setTitle(String title){
 		discTitle = title;
 	}
 	
@@ -35,5 +38,8 @@ public class Discussion
 	public void removeComment(int id){
 		commentList.remove(id);
 	}
-
+	
+	public String toString() {
+        return discTitle;
+    }
 }

@@ -1,13 +1,16 @@
 
 public class Comment
 {
-	private static int commentID;
+	private static int count;
+	private int commentID;
 	private String text = "";
 	private User author;
 	
 	public Comment() {}
 	
 	public Comment(String text){
+		count++;
+		commentID = count;
 		this.text = text;
 	}
 	
@@ -35,4 +38,8 @@ public class Comment
 	public void setAuthor(User author){
 		this.author = author;
 	}
+	
+	public String toString() {
+        return text;
+    }
 }
