@@ -5,7 +5,7 @@ public class Discussion
 	private static int count;
 	private int discID;
 	private String discTitle = "";
-	private ArrayList<Comment> commentList = new ArrayList<Comment>();
+	private Vector<Comment> commentList = new Vector<Comment>();
 	
 	public Discussion() {}
 	
@@ -28,7 +28,7 @@ public class Discussion
 	}
 	
 	public Comment getComment(int id){
-		return commentList.get(id);
+		return commentList.elementAt(id);
 	}
 	
 	public void addComment(Comment comment){

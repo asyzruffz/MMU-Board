@@ -3,7 +3,7 @@ import java.util.*;
 public class Subject
 {
 	private String subjName = "";
-	private ArrayList<Discussion> discussionList = new ArrayList<Discussion>();
+	private Vector<Discussion> discussionList = new Vector<Discussion>();
 	
 	public Subject() {}
 	
@@ -20,7 +20,7 @@ public class Subject
 	}
 	
 	public Discussion getDiscussion(int id){
-		return discussionList.get(id);
+		return discussionList.elementAt(id);
 	}
 	
 	public void addDiscussion(Discussion discussion){

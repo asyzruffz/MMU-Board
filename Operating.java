@@ -1,9 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.*;
 
 public class Operating extends Session
 {
+	private Vector<Subject> subjectList = new Vector<Subject>();
+	
 	public Operating()
 	{
 		initPanel();
@@ -17,9 +20,19 @@ public class Operating extends Session
 	
 	protected void initPanel()
 	{
-		JTextArea treeArea = new JTextArea();
-		JScrollPane treeScrollPane = new JScrollPane(treeArea);
-		treeArea.setEditable(false);
+		subjectList.add(new Subject("Calculus"));
+		subjectList.add(new Subject("Discreet Structure"));
+		subjectList.add(new Subject("Programming Fundamentals"));
+		subjectList.add(new Subject("Prof Development"));
+		subjectList.add(new Subject("Computational Methods"));
+		
+		JList allSubjects = new JList(subjectList);
+		allSubjects.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		allSubjects.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		allSubjects.setVisibleRowCount(-1);
+		
+		JScrollPane subjScrollPane = new JScrollPane(allSubjects);
+		
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.PAGE_AXIS));
 		JTextArea note = new JTextArea(50, 0);
@@ -35,14 +48,14 @@ public class Operating extends Session
 		
 		//Create a split pane with the two scroll panes in it.
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-								   treeScrollPane, middlePanel);
+								   subjScrollPane, middlePanel);
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setDividerLocation(200);
 		splitPane.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
 															   BorderFactory.createLoweredBevelBorder()));
 		//Provide minimum sizes for the two components in the split pane
 		Dimension minimumSize = new Dimension(200, 50);
-		treeScrollPane.setMinimumSize(minimumSize);
+		subjScrollPane.setMinimumSize(minimumSize);
 		textScrollPane.setMinimumSize(minimumSize);
 		
 		super.add(splitPane);
