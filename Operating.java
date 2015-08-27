@@ -1,11 +1,14 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 import java.util.*;
 
-public class Operating extends Session
+public class Operating extends Session implements ListSelectionListener
 {
 	private Vector<Subject> subjectList = new Vector<Subject>();
+	JList allSubjects;
+	JList allDiscussions = new JList();
 	
 	public Operating()
 	{
@@ -26,10 +29,11 @@ public class Operating extends Session
 		subjectList.add(new Subject("Prof Development"));
 		subjectList.add(new Subject("Computational Methods"));
 		
-		JList allSubjects = new JList(subjectList);
+		allSubjects = new JList(subjectList);
 		allSubjects.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		allSubjects.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		allSubjects.setVisibleRowCount(-1);
+		allSubjects.addListSelectionListener(this);
 		
 		JScrollPane subjScrollPane = new JScrollPane(allSubjects);
 		
@@ -59,5 +63,21 @@ public class Operating extends Session
 		textScrollPane.setMinimumSize(minimumSize);
 		
 		super.add(splitPane);
+	}
+	
+	public void valueChanged(ListSelectionEvent evt)
+	{
+		JList list = (JList)evt.getSource();
+		
+		// At least one subject is selected
+		if(!list.isSelectionEmpty())
+		{
+			Subject chosenSubj = (Subject)list.getSelectedValue();
+			//System.out.println(chosenSubj.getSubjName() + " is selected!");
+		}
+		else
+		{
+			//
+		}
 	}
 }
