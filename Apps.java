@@ -7,22 +7,32 @@
 *				 5.
 **************************************************/
 
+import java.awt.*;
+import javax.swing.*;
+
 public class Apps
 {
 	MainFrame mFrame = new MainFrame("Online MMU-Board System");
 	
 	public Apps()
 	{
+		System.out.println("Apps initialized!");
+		
+		JDialog loginDialog = new JDialog(mFrame);
+		Container loginContent = loginDialog.getContentPane();
+		loginContent.add(new Login(new FlowLayout()));
+		loginDialog.setSize(300, 400);
+		loginDialog.setVisible(true);
+		
 		mFrame.setExtendedState(MainFrame.MAXIMIZED_BOTH);
 		mFrame.setVisible(true);
-		System.out.println("Apps initialized!");
 	}
 	
 	public void run()
 	{
 		while(true)
 		{
-			//mFrame.run();
+			//
 		}
 	}
 	

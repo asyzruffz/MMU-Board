@@ -10,9 +10,9 @@ public class MainFrame extends JFrame implements ActionListener, MouseListener
 	JButton bttn;
 	JFileChooser fch;
 	
-	private Login loginSession = new Login(new FlowLayout());
-	private Operating operatingSession = new Operating(new GridLayout(1, 1));
-	private Session currentSession;
+	//private Login loginSession = new Login(new FlowLayout());
+	//private Operating operatingSession = new Operating(new GridLayout(1, 1));
+	private Session currentSession = new Operating(new GridLayout(1, 1));
 	
 	public MainFrame(String title)
 	{
@@ -24,9 +24,7 @@ public class MainFrame extends JFrame implements ActionListener, MouseListener
 		fch = new JFileChooser();
 		WindowUtilities.setNativeLookAndFeel();
 		SwingUtilities.updateComponentTreeUI(fch);
-		SwingUtilities.updateComponentTreeUI(loginSession);
-		SwingUtilities.updateComponentTreeUI(operatingSession);
-		currentSession = loginSession;
+		SwingUtilities.updateComponentTreeUI(currentSession);
 		setMenus();
 		setPanels();
 	}
@@ -124,17 +122,16 @@ public class MainFrame extends JFrame implements ActionListener, MouseListener
 		
 		currentSession.setSourceListener(this);
 		content.add(currentSession, BorderLayout.CENTER);
-		//if(loginSession.accountChecked())
-		//	content.add(operatingSession, BorderLayout.CENTER);
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));
-		bottomPanel.add(new JTextField(15));
+		bottomPanel.add(new JTextField(15));                                    // <- this
 		bottomPanel.add(Box.createHorizontalStrut(5));
 		bottomPanel.add(new JButton("Search"));
 		bottomPanel.add(Box.createHorizontalStrut(5));
 		bottomPanel.add(new JSeparator(JSeparator.VERTICAL));
-		bottomPanel.add(Box.createHorizontalStrut(5));
+		bottomPanel.add(Box.createHorizontalStrut(5)); // not working, maybe because of ^
+		bottomPanel.add(Box.createHorizontalGlue());
 		bottomPanel.add(new JLabel("                                                                                                                                                               "));
 		bottomPanel.add(Box.createHorizontalStrut(5));
 		bottomPanel.add(new JSeparator(JSeparator.VERTICAL));
@@ -170,11 +167,6 @@ public class MainFrame extends JFrame implements ActionListener, MouseListener
 				
 				JOptionPane.showMessageDialog(this, "Can't save anything yet!");
             }
-		}
-		else if(btnText.equals("Sign in"))
-		{
-			currentSession = operatingSession;
-			System.out.println("sign in");
 		}
 		else
 		{

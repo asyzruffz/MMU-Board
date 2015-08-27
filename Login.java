@@ -36,7 +36,7 @@ public class Login extends Session
 		loginPanel.add(signinBtn);
 		
 		super.add(loginPanel);
-		super.setBorder(BorderFactory.createLoweredBevelBorder());
+		//super.setBorder(BorderFactory.createLoweredBevelBorder());
 	}
 	
 	public void setSourceListener(ActionListener al)
