@@ -22,6 +22,7 @@ public class Apps
 		Container loginContent = loginDialog.getContentPane();
 		loginContent.add(new Login(new FlowLayout()));
 		loginDialog.setSize(300, 400);
+		loginDialog.setResizable(false);
 		loginDialog.setVisible(true);
 		
 		mFrame.setExtendedState(MainFrame.MAXIMIZED_BOTH);

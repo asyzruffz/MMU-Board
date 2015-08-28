@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.util.*;
 
-public class Operating extends Session implements ListSelectionListener
+public class Operating extends Session implements ActionListener, ListSelectionListener
 {
 	private Vector<Subject> subjectList = new Vector<Subject>();
 	JList allSubjects;
@@ -29,13 +29,20 @@ public class Operating extends Session implements ListSelectionListener
 		subjectList.add(new Subject("Prof Development"));
 		subjectList.add(new Subject("Computational Methods"));
 		
+		JPanel leftPanel = new JPanel();
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
+		
 		allSubjects = new JList(subjectList);
 		allSubjects.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		allSubjects.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		allSubjects.setLayoutOrientation(JList.VERTICAL);
 		allSubjects.setVisibleRowCount(-1);
 		allSubjects.addListSelectionListener(this);
-		
 		JScrollPane subjScrollPane = new JScrollPane(allSubjects);
+		JButton newSubjBtn = new JButton("Add New Subject");
+		newSubjBtn.addActionListener(this);
+		
+		leftPanel.add(subjScrollPane);
+		leftPanel.add(newSubjBtn);
 		
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.PAGE_AXIS));
@@ -52,7 +59,7 @@ public class Operating extends Session implements ListSelectionListener
 		
 		//Create a split pane with the two scroll panes in it.
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-								   subjScrollPane, middlePanel);
+								   leftPanel, middlePanel);
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setDividerLocation(200);
 		splitPane.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
@@ -63,6 +70,32 @@ public class Operating extends Session implements ListSelectionListener
 		textScrollPane.setMinimumSize(minimumSize);
 		
 		super.add(splitPane);
+	}
+	
+	public void actionPerformed(ActionEvent evt)
+	{
+		String btnText = evt.getActionCommand();
+		
+		if(btnText.equals("Add New Subject"))
+		{
+			NameDialog namePrompt = new NameDialog("Add New Subject");
+			String subjectName = namePrompt.getInput();
+			
+			if(!subjectName.equals(""))
+			{
+				subjectList.add(new Subject(subjectName));
+				
+				// Recreate a new list model & add the updated subject list
+				DefaultListModel listModel = new DefaultListModel();
+				for(Subject subj : subjectList)
+				{
+					listModel.addElement(subj);
+				}
+				
+				// Set the list with the new list model
+				allSubjects.setModel(listModel);
+			}
+		}
 	}
 	
 	public void valueChanged(ListSelectionEvent evt)
