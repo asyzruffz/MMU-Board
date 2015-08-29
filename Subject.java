@@ -31,6 +31,10 @@ public class Subject
 		discussionList.remove(id);
 	}
 	
+	public Vector<Discussion> getAllDiscussions(){
+		return discussionList;
+	}
+	
 	public String toString() {
         return subjName;
     }

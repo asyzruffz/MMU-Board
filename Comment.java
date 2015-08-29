@@ -20,7 +20,7 @@ public class Comment
 		this.author = author;
 	}
 	
-	public int getCommentID(){
+	public int getID(){
 		return commentID;
 	}
 	

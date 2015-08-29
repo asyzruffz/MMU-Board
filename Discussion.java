@@ -15,7 +15,7 @@ public class Discussion
 		discTitle = title;
 	}
 	
-	public int getDiscID(){
+	public int getID(){
 		return discID;
 	}
 	
@@ -37,6 +37,10 @@ public class Discussion
 	
 	public void removeComment(int id){
 		commentList.remove(id);
+	}
+	
+	public Vector<Comment> getAllComment(){
+		return commentList;
 	}
 	
 	public String toString() {

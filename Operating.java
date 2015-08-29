@@ -7,8 +7,9 @@ import java.util.*;
 public class Operating extends Session implements ActionListener, ListSelectionListener
 {
 	private Vector<Subject> subjectList = new Vector<Subject>();
-	JList allSubjects;
-	JList allDiscussions = new JList();
+	private Subject selectedSubject = null;
+	private JList allSubjects;
+	private JList allDiscussions = new JList();
 	
 	public Operating()
 	{
@@ -41,8 +42,18 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		JButton newSubjBtn = new JButton("Add New Subject");
 		newSubjBtn.addActionListener(this);
 		
+		allDiscussions.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		allDiscussions.setLayoutOrientation(JList.VERTICAL);
+		allDiscussions.setVisibleRowCount(-1);
+		allDiscussions.addListSelectionListener(this);
+		JScrollPane discScrollPane = new JScrollPane(allDiscussions);
+		JButton newDiscBtn = new JButton("Add New Discussion");
+		newDiscBtn.addActionListener(this);
+		
 		leftPanel.add(subjScrollPane);
 		leftPanel.add(newSubjBtn);
+		leftPanel.add(discScrollPane);
+		leftPanel.add(newDiscBtn);
 		
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.PAGE_AXIS));
@@ -83,16 +94,24 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 			if((subjectName != null) && (subjectName.length() > 0))
 			{
 				subjectList.add(new Subject(subjectName));
+				updateList(allSubjects, subjectList);
+			}
+		}
+		else if(btnText.equals("Add New Discussion"))
+		{
+			if(selectedSubject != null)
+			{
+				String discussionTitle = (String)JOptionPane.showInputDialog(new JFrame(), "Discussion Title: ", "Add New Discussion", JOptionPane.PLAIN_MESSAGE);
 				
-				// Recreate a new list model & add the updated subject list
-				DefaultListModel listModel = new DefaultListModel();
-				for(Subject subj : subjectList)
+				if((discussionTitle != null) && (discussionTitle.length() > 0))
 				{
-					listModel.addElement(subj);
+					selectedSubject.addDiscussion(new Discussion(discussionTitle));
+					updateList(allDiscussions, selectedSubject.getAllDiscussions());
 				}
-				
-				// Set the list with the new list model
-				allSubjects.setModel(listModel);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(new JFrame(), "Please select a Subject!", "Error!", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -101,15 +120,38 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 	{
 		JList list = (JList)evt.getSource();
 		
-		// At least one subject is selected
+		// At least one object is selected
 		if(!list.isSelectionEmpty())
 		{
-			Subject chosenSubj = (Subject)list.getSelectedValue();
-			//System.out.println(chosenSubj.getSubjName() + " is selected!");
+			if(list.getSelectedValue() instanceof Discussion)
+			{
+				Discussion chosenDisc = (Discussion)list.getSelectedValue();
+				//System.out.println(chosenDisc.getTitle() + " is selected!");
+			}
+			
+			if(list.getSelectedValue() instanceof Subject)
+			{
+				selectedSubject = (Subject)list.getSelectedValue();
+				//System.out.println(selectedSubject.getSubjName() + " is selected!");
+				updateList(allDiscussions, selectedSubject.getAllDiscussions());
+			}
+			else
+			{
+				selectedSubject = null;
+			}
 		}
-		else
+	}
+	
+	public void updateList(JList list, Vector newVector)
+	{
+		// Recreate a new list model & add the updated object list
+		DefaultListModel listModel = new DefaultListModel();
+		for(Object obj : newVector)
 		{
-			//
+			listModel.addElement(obj);
 		}
+		
+		// Set the list with the new list model
+		list.setModel(listModel);
 	}
 }
