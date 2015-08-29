@@ -78,10 +78,9 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		
 		if(btnText.equals("Add New Subject"))
 		{
-			NameDialog namePrompt = new NameDialog("Add New Subject");
-			String subjectName = namePrompt.getInput();
+			String subjectName = (String)JOptionPane.showInputDialog(new JFrame(), "Subject Name: ", "Add New Subject", JOptionPane.PLAIN_MESSAGE);
 			
-			if(!subjectName.equals(""))
+			if((subjectName != null) && (subjectName.length() > 0))
 			{
 				subjectList.add(new Subject(subjectName));
 				
