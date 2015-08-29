@@ -125,14 +125,14 @@ public class MainFrame extends JFrame implements ActionListener, MouseListener
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));
-		bottomPanel.add(new JTextField(15));                                    // <- this
+		//bottomPanel.add(new JTextField(15));                                    // <- this
 		bottomPanel.add(Box.createHorizontalStrut(5));
 		bottomPanel.add(new JButton("Search"));
 		bottomPanel.add(Box.createHorizontalStrut(5));
 		bottomPanel.add(new JSeparator(JSeparator.VERTICAL));
-		bottomPanel.add(Box.createHorizontalStrut(5)); // not working, maybe because of ^
-		bottomPanel.add(Box.createHorizontalGlue());
-		bottomPanel.add(new JLabel("                                                                                                                                                               "));
+		bottomPanel.add(Box.createHorizontalStrut(5));
+		bottomPanel.add(Box.createHorizontalGlue()); // not working, maybe because of ^
+		//bottomPanel.add(new JLabel("                                                                                                                                                               "));
 		bottomPanel.add(Box.createHorizontalStrut(5));
 		bottomPanel.add(new JSeparator(JSeparator.VERTICAL));
 		bottomPanel.add(Box.createHorizontalStrut(5));

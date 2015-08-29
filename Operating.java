@@ -61,11 +61,11 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 								   leftPanel, middlePanel);
 		splitPane.setOneTouchExpandable(true);
-		splitPane.setDividerLocation(200);
+		splitPane.setDividerLocation(240);
 		splitPane.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
 															   BorderFactory.createLoweredBevelBorder()));
 		//Provide minimum sizes for the two components in the split pane
-		Dimension minimumSize = new Dimension(200, 50);
+		Dimension minimumSize = new Dimension(240, 50);
 		subjScrollPane.setMinimumSize(minimumSize);
 		textScrollPane.setMinimumSize(minimumSize);
 		

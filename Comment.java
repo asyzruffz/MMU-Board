@@ -5,6 +5,7 @@ public class Comment
 	private int commentID;
 	private String text = "";
 	private User author;
+	private int karma;
 	
 	public Comment() {}
 	
@@ -39,7 +40,15 @@ public class Comment
 		this.author = author;
 	}
 	
-	public String toString() {
+	public String toString(){
         return text;
     }
+	
+	public void upvote(){
+		karma++;
+	}
+	
+	public void downvote(){
+		karma--;
+	}
 }
