@@ -8,8 +8,11 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 {
 	private Vector<Subject> subjectList = new Vector<Subject>();
 	private Subject selectedSubject = null;
+	private Discussion selectedDiscussion = null;
 	private JList allSubjects;
 	private JList allDiscussions = new JList();
+	private JTextArea messageArea = new JTextArea("Enter your post here...", 5, 0);
+	private JTextArea note = new JTextArea(50, 0);
 	
 	public Operating()
 	{
@@ -57,18 +60,18 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.PAGE_AXIS));
-		JTextArea note = new JTextArea(50, 0);
-		JScrollPane textScrollPane = new JScrollPane(note);
-		middlePanel.add(textScrollPane);
+		note.setEditable(false);
+		middlePanel.add(new JScrollPane(note));
 		JPanel messagePanel = new JPanel();
-		JTextField messageBar = new JTextField("Enter your post here...");
 		messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.LINE_AXIS));
-		messagePanel.add(messageBar);
-		messagePanel.add(new JButton("Post"));
+		messagePanel.add(new JScrollPane(messageArea));
+		JButton postBtn = new JButton("Post");
+		postBtn.addActionListener(this);
+		messagePanel.add(postBtn);
 		middlePanel.add(messagePanel);
 		
 		
-		//Create a split pane with the two scroll panes in it.
+		//Create a split pane dividing main post from Subject/Discussion selector.
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 								   leftPanel, middlePanel);
 		splitPane.setOneTouchExpandable(true);
@@ -76,9 +79,9 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		splitPane.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
 															   BorderFactory.createLoweredBevelBorder()));
 		//Provide minimum sizes for the two components in the split pane
-		Dimension minimumSize = new Dimension(240, 50);
-		subjScrollPane.setMinimumSize(minimumSize);
-		textScrollPane.setMinimumSize(minimumSize);
+		Dimension minimumSize = new Dimension(240, 300);
+		leftPanel.setMinimumSize(minimumSize);
+		middlePanel.setMinimumSize(minimumSize);
 		
 		super.add(splitPane);
 	}
@@ -89,7 +92,7 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		
 		if(btnText.equals("Add New Subject"))
 		{
-			String subjectName = (String)JOptionPane.showInputDialog(new JFrame(), "Subject Name: ", "Add New Subject", JOptionPane.PLAIN_MESSAGE);
+			String subjectName = (String)JOptionPane.showInputDialog(this.getTopLevelAncestor(), "Subject Name: ", "Add New Subject", JOptionPane.PLAIN_MESSAGE);
 			
 			if((subjectName != null) && (subjectName.length() > 0))
 			{
@@ -101,7 +104,7 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		{
 			if(selectedSubject != null)
 			{
-				String discussionTitle = (String)JOptionPane.showInputDialog(new JFrame(), "Discussion Title: ", "Add New Discussion", JOptionPane.PLAIN_MESSAGE);
+				String discussionTitle = (String)JOptionPane.showInputDialog(this.getTopLevelAncestor(), "Discussion Title: ", "Add New Discussion", JOptionPane.PLAIN_MESSAGE);
 				
 				if((discussionTitle != null) && (discussionTitle.length() > 0))
 				{
@@ -111,7 +114,25 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(new JFrame(), "Please select a Subject!", "Error!", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this.getTopLevelAncestor(), "Please select a Subject!", "Error!", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		else if(btnText.equals("Post"))
+		{
+			if(selectedDiscussion != null)
+			{
+				String commentText = messageArea.getText() + "\n";
+				
+				if((commentText != null) && (commentText.length() > 0) && (!commentText.equals("Enter your post here...\n")))
+				{
+					selectedDiscussion.addComment(new Comment(commentText));
+					note.append(commentText);
+					messageArea.setText("Enter your post here...");
+				}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this.getTopLevelAncestor(), "Please select a Discussion of a Subject!", "Error!", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -123,22 +144,32 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		// At least one object is selected
 		if(!list.isSelectionEmpty())
 		{
+			// the selection is in discussion list
 			if(list.getSelectedValue() instanceof Discussion)
 			{
-				Discussion chosenDisc = (Discussion)list.getSelectedValue();
-				//System.out.println(chosenDisc.getTitle() + " is selected!");
-			}
-			
-			if(list.getSelectedValue() instanceof Subject)
-			{
-				selectedSubject = (Subject)list.getSelectedValue();
-				//System.out.println(selectedSubject.getSubjName() + " is selected!");
-				updateList(allDiscussions, selectedSubject.getAllDiscussions());
+				selectedDiscussion = (Discussion)list.getSelectedValue();
+				//System.out.println(selectedDiscussion.getTitle() + " is selected!");
 			}
 			else
 			{
-				selectedSubject = null;
+				//System.out.println("Discussion is null!");
+				selectedDiscussion = null;
+				
+				// the selection is in subject list
+				if(list.getSelectedValue() instanceof Subject)
+				{
+					selectedSubject = (Subject)list.getSelectedValue();
+					//System.out.println(selectedSubject.getSubjName() + " is selected!");
+					updateList(allDiscussions, selectedSubject.getAllDiscussions());
+				}
+				else
+				{
+					//System.out.println("Subject is null!");
+					selectedSubject = null;
+				}
 			}
+				
+			updateMessageBoard(selectedDiscussion);
 		}
 	}
 	
@@ -153,5 +184,17 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		
 		// Set the list with the new list model
 		list.setModel(listModel);
+	}
+	
+	public void updateMessageBoard(Discussion disc)
+	{
+		note.setText("");
+		if(selectedDiscussion != null)
+		{
+			for(Comment msg : disc.getAllComment())
+			{
+				note.append(msg.getText());
+			}
+		}
 	}
 }
