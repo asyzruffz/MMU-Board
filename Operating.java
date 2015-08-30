@@ -98,7 +98,7 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 			if((subjectName != null) && (subjectName.length() > 0))
 			{
 				subjectList.add(new Subject(subjectName));
-				updateList(allSubjects, subjectList);
+				selectedSubject = (Subject)updateList(allSubjects, subjectList);
 			}
 		}
 		else if(btnText.equals("Add New Discussion"))
@@ -110,7 +110,8 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 				if((discussionTitle != null) && (discussionTitle.length() > 0))
 				{
 					selectedSubject.addDiscussion(new Discussion(discussionTitle));
-					updateList(allDiscussions, selectedSubject.getAllDiscussions());
+					selectedDiscussion = (Discussion)updateList(allDiscussions, selectedSubject.getAllDiscussions());
+					updateMessageBoard();
 				}
 			}
 			else
@@ -127,7 +128,7 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 				if((commentText != null) && (commentText.length() > 0) && (!commentText.equals("Enter your post here...\n")))
 				{
 					selectedDiscussion.addComment(new Comment(commentText));
-					note.append(commentText);
+					updateMessageBoard();
 					messageArea.setText("Enter your post here...");
 				}
 			}
@@ -170,7 +171,7 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 				}
 			}
 				
-			updateMessageBoard(selectedDiscussion);
+			updateMessageBoard();
 		}
 	}
 	
@@ -194,7 +195,7 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		}
 	}
 	
-	public void updateList(JList list, Vector newVector)
+	public Object updateList(JList list, Vector newVector)
 	{
 		// Recreate a new list model & add the updated object list
 		DefaultListModel listModel = new DefaultListModel();
@@ -205,9 +206,14 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		
 		// Set the list with the new list model
 		list.setModel(listModel);
+		
+		// Visually select the added object in the list
+		list.setSelectedIndex(newVector.size() - 1);
+		list.ensureIndexIsVisible(newVector.size() - 1);
+		return newVector.lastElement();
 	}
 	
-	public void updateMessageBoard(Discussion disc)
+	public void updateMessageBoard()
 	{
 		note.setText("");
 		if(selectedDiscussion != null)
@@ -215,9 +221,9 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 			note.append("Subject: " + selectedSubject.getSubjName() + "\n\n");
 			note.append("Title: " + selectedDiscussion.getTitle() + "\n\n\n");
 			
-			for(Comment msg : disc.getAllComment())
+			for(Comment msg : selectedDiscussion.getAllComment())
 			{
-				note.append(msg.getText());
+				note.append(msg.getAuthor().getUsername() + ": " + msg.getText());
 			}
 		}
 	}

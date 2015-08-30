@@ -4,7 +4,7 @@ public class Comment
 	private static int count;
 	private int commentID;
 	private String text = "";
-	private User author;
+	private User author = new User();
 	private int karma;
 	
 	public Comment() {}

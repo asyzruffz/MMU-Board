@@ -39,9 +39,16 @@ public class Apps
 	
 	public static void main(String[] args)
 	{
-		Apps myApps = new Apps();
-		//myApps.run();
-		
-		//System.out.println("Apps destroyed!");
+		try
+		{
+			Apps myApps = new Apps();
+			//myApps.run();
+			
+			//System.out.println("Apps destroyed!");
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }
