@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.util.*;
 
-public class Operating extends Session implements ActionListener, ListSelectionListener
+public class Operating extends Session implements ActionListener, ListSelectionListener, FocusListener
 {
 	private Vector<Subject> subjectList = new Vector<Subject>();
 	private Subject selectedSubject = null;
@@ -64,6 +64,7 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		middlePanel.add(new JScrollPane(note));
 		JPanel messagePanel = new JPanel();
 		messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.LINE_AXIS));
+		messageArea.addFocusListener(this);
 		messagePanel.add(new JScrollPane(messageArea));
 		JButton postBtn = new JButton("Post");
 		postBtn.addActionListener(this);
@@ -170,6 +171,26 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 			}
 				
 			updateMessageBoard(selectedDiscussion);
+		}
+	}
+	
+	public void focusGained(FocusEvent evt)
+	{
+		String msg = messageArea.getText();
+		
+		if(msg.equals("Enter your post here..."))
+		{
+			messageArea.setText("");
+		}
+	}
+	
+	public void focusLost(FocusEvent evt)
+	{
+		String msg = messageArea.getText();
+		
+		if(msg.equals(""))
+		{
+			messageArea.setText("Enter your post here...");
 		}
 	}
 	
