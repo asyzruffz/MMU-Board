@@ -49,6 +49,7 @@ public class Apps
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+			System.out.println(e.getMessage());
 		}
 	}
 }

@@ -89,89 +89,109 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 	
 	public void actionPerformed(ActionEvent evt)
 	{
-		String btnText = evt.getActionCommand();
-		
-		if(btnText.equals("Add New Subject"))
+		try
 		{
-			String subjectName = (String)JOptionPane.showInputDialog(this.getTopLevelAncestor(), "Subject Name: ", "Add New Subject", JOptionPane.PLAIN_MESSAGE);
 			
-			if((subjectName != null) && (subjectName.length() > 0))
+			String btnText = evt.getActionCommand();
+			
+			if(btnText.equals("Add New Subject"))
 			{
-				subjectList.add(new Subject(subjectName));
-				selectedSubject = (Subject)updateList(allSubjects, subjectList);
-			}
-		}
-		else if(btnText.equals("Add New Discussion"))
-		{
-			if(selectedSubject != null)
-			{
-				String discussionTitle = (String)JOptionPane.showInputDialog(this.getTopLevelAncestor(), "Discussion Title: ", "Add New Discussion", JOptionPane.PLAIN_MESSAGE);
+				String subjectName = (String)JOptionPane.showInputDialog(this.getTopLevelAncestor(), "Subject Name: ", "Add New Subject", JOptionPane.PLAIN_MESSAGE);
 				
-				if((discussionTitle != null) && (discussionTitle.length() > 0))
+				if((subjectName != null) && (subjectName.length() > 0))
 				{
-					selectedSubject.addDiscussion(new Discussion(discussionTitle));
-					selectedDiscussion = (Discussion)updateList(allDiscussions, selectedSubject.getAllDiscussions());
-					updateMessageBoard();
+					subjectList.add(new Subject(subjectName));
+					selectedSubject = (Subject)updateList(allSubjects, subjectList);
 				}
 			}
-			else
+			else if(btnText.equals("Add New Discussion"))
 			{
-				JOptionPane.showMessageDialog(this.getTopLevelAncestor(), "Please select a Subject!", "Error!", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-		else if(btnText.equals("Post"))
-		{
-			if(selectedDiscussion != null)
-			{
-				String commentText = messageArea.getText() + "\n";
-				
-				if((commentText != null) && (commentText.length() > 0) && (!commentText.equals("Enter your post here...\n")))
+				if(selectedSubject != null)
 				{
-					selectedDiscussion.addComment(new Comment(commentText));
-					updateMessageBoard();
-					messageArea.setText("Enter your post here...");
+					String discussionTitle = (String)JOptionPane.showInputDialog(this.getTopLevelAncestor(), "Discussion Title: ", "Add New Discussion", JOptionPane.PLAIN_MESSAGE);
+					
+					if((discussionTitle != null) && (discussionTitle.length() > 0))
+					{
+						selectedSubject.addDiscussion(new Discussion(discussionTitle));
+						selectedDiscussion = (Discussion)updateList(allDiscussions, selectedSubject.getAllDiscussions());
+						updateMessageBoard();
+					}
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(this.getTopLevelAncestor(), "Please select a Subject!", "Error!", JOptionPane.ERROR_MESSAGE);
 				}
 			}
-			else
+			else if(btnText.equals("Post"))
 			{
-				JOptionPane.showMessageDialog(this.getTopLevelAncestor(), "Please select a Discussion of a Subject!", "Error!", JOptionPane.ERROR_MESSAGE);
+				if(selectedDiscussion != null)
+				{
+					String commentText = messageArea.getText() + "\n";
+					
+					if((commentText != null) && (commentText.length() > 0) && (!commentText.equals("Enter your post here...\n")))
+					{
+						selectedDiscussion.addComment(new Comment(commentText));
+						updateMessageBoard();
+						messageArea.setText("Enter your post here...");
+					}
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(this.getTopLevelAncestor(), "Please select a Discussion of a Subject!", "Error!", JOptionPane.ERROR_MESSAGE);
+				}
 			}
+			
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+			System.out.println(e.getMessage());
 		}
 	}
 	
 	public void valueChanged(ListSelectionEvent evt)
 	{
-		JList list = (JList)evt.getSource();
-		
-		// At least one object is selected
-		if(!list.isSelectionEmpty())
+		try
 		{
-			// the selection is in discussion list
-			if(list.getSelectedValue() instanceof Discussion)
+		
+			JList list = (JList)evt.getSource();
+			
+			// At least one object is selected
+			if(!list.isSelectionEmpty())
 			{
-				selectedDiscussion = (Discussion)list.getSelectedValue();
-				//System.out.println(selectedDiscussion.getTitle() + " is selected!");
-			}
-			else
-			{
-				//System.out.println("Discussion is null!");
-				selectedDiscussion = null;
-				
-				// the selection is in subject list
-				if(list.getSelectedValue() instanceof Subject)
+				// the selection is in discussion list
+				if(list.getSelectedValue() instanceof Discussion)
 				{
-					selectedSubject = (Subject)list.getSelectedValue();
-					//System.out.println(selectedSubject.getSubjName() + " is selected!");
-					updateList(allDiscussions, selectedSubject.getAllDiscussions());
+					selectedDiscussion = (Discussion)list.getSelectedValue();
+					//System.out.println(selectedDiscussion.getTitle() + " is selected!");
 				}
 				else
 				{
-					//System.out.println("Subject is null!");
-					selectedSubject = null;
+					//System.out.println("Discussion is null!");
+					selectedDiscussion = null;
+					
+					// the selection is in subject list
+					if(list.getSelectedValue() instanceof Subject)
+					{
+						selectedSubject = (Subject)list.getSelectedValue();
+						//System.out.println(selectedSubject.getSubjName() + " is selected!");
+						updateList(allDiscussions, selectedSubject.getAllDiscussions());
+					}
+					else
+					{
+						//System.out.println("Subject is null!");
+						selectedSubject = null;
+					}
 				}
+					
+				updateMessageBoard();
 			}
-				
-			updateMessageBoard();
+			
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -206,6 +226,9 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		
 		// Set the list with the new list model
 		list.setModel(listModel);
+		
+		if(newVector.isEmpty())
+			return null;
 		
 		// Visually select the added object in the list
 		list.setSelectedIndex(newVector.size() - 1);

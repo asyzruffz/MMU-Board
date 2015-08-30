@@ -4,9 +4,8 @@ import javax.swing.*;
 import javax.swing.BorderFactory; 
 import javax.swing.border.*;
 
-public class MainFrame extends JFrame implements ActionListener, MouseListener
+public class MainFrame extends JFrame implements ActionListener
 {
-	JLabel cood = new JLabel("Waiting mouse: ");
 	JButton bttn;
 	JFileChooser fch;
 	
@@ -19,7 +18,6 @@ public class MainFrame extends JFrame implements ActionListener, MouseListener
 		super(title);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(800, 600);
-		addMouseListener(this);
 		setIconImage(new ImageIcon("mmuico.png", "").getImage());
 		fch = new JFileChooser();
 		WindowUtilities.setNativeLookAndFeel();
@@ -172,21 +170,5 @@ public class MainFrame extends JFrame implements ActionListener, MouseListener
 		{
 			JOptionPane.showMessageDialog(this, btnText + " button was clicked!");
 		}
-	}
-	
-	public void mouseClicked(MouseEvent evt)
-	{
-		int x = evt.getX();
-		int y = evt.getY();
-		cood.setText("Mouse clicked at: " + x + "," + y);
-	}
-	public void mouseExited(MouseEvent evt){}
-	public void mouseReleased(MouseEvent evt){}
-	public void mousePressed(MouseEvent evt){}
-	public void mouseEntered(MouseEvent evt)
-	{
-		int x = evt.getX();
-		int y = evt.getY();
-		cood.setText("Mouse enter from: " + x + "," + y);
 	}
 }
