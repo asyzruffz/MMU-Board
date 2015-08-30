@@ -212,6 +212,9 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		note.setText("");
 		if(selectedDiscussion != null)
 		{
+			note.append("Subject: " + selectedSubject.getSubjName() + "\n\n");
+			note.append("Title: " + selectedDiscussion.getTitle() + "\n\n\n");
+			
 			for(Comment msg : disc.getAllComment())
 			{
 				note.append(msg.getText());
