@@ -29,7 +29,7 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 	protected void initPanel()
 	{
 		
-		Vector fromFile = readFromFile("content");
+		Vector fromFile = (Vector)readFromFile("content");
 		if(fromFile != null)
 			subjectList = fromFile;
 		

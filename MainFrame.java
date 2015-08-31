@@ -25,6 +25,17 @@ public class MainFrame extends JFrame implements ActionListener
 		SwingUtilities.updateComponentTreeUI(currentSession);
 		setMenus();
 		setPanels();
+		
+		JDialog loginDialog = new JDialog(this);
+		Container loginContent = loginDialog.getContentPane();
+		loginContent.add(new Login(new FlowLayout()));
+		loginDialog.setSize(300, 400);
+		loginDialog.setResizable(false);
+		loginDialog.setLocationRelativeTo(this);
+		loginDialog.setVisible(true);
+		
+		setExtendedState(MainFrame.MAXIMIZED_BOTH);
+		setVisible(true);
 	}
 	
 	public void setMenus()
