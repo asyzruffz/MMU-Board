@@ -146,7 +146,11 @@ public class MainFrame extends JFrame implements ActionListener
 	{
 		String btnText = evt.getActionCommand();
 		
-		if(btnText.equals("Open..."))
+		if(btnText.equals("Exit"))
+		{
+			System.exit(0);
+		}
+		else if(btnText.equals("Open..."))
 		{
 			int returnVal = fch.showOpenDialog(MainFrame.this);
 
