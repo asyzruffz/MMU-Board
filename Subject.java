@@ -1,6 +1,7 @@
+import java.io.*;
 import java.util.*;
 
-public class Subject
+public class Subject implements Serializable 
 {
 	private String subjName = "";
 	private Vector<Discussion> discussionList = new Vector<Discussion>();

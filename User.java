@@ -1,5 +1,6 @@
+import java.io.*;
 
-public class User
+public class User implements Serializable
 {
 	private int userID;
 	private String username = "Guest";

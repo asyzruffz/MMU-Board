@@ -1,6 +1,7 @@
+import java.io.*;
 import java.util.*;
 
-public class Discussion
+public class Discussion implements Serializable 
 {
 	private static int count;
 	private int discID;

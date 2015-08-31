@@ -1,5 +1,6 @@
+import java.io.*;
 
-public class Comment
+public class Comment implements Serializable 
 {
 	private static int count;
 	private int commentID;

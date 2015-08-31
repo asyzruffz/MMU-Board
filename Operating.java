@@ -1,3 +1,4 @@
+import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -27,11 +28,16 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 	
 	protected void initPanel()
 	{
-		subjectList.add(new Subject("Calculus"));
-		subjectList.add(new Subject("Discreet Structure"));
-		subjectList.add(new Subject("Programming Fundamentals"));
-		subjectList.add(new Subject("Prof Development"));
-		subjectList.add(new Subject("Computational Methods"));
+		
+		Vector fromFile = readFromFile("content");
+		if(fromFile != null)
+			subjectList = fromFile;
+		
+		//subjectList.add(new Subject("Calculus"));
+		//subjectList.add(new Subject("Discreet Structure"));
+		//subjectList.add(new Subject("Programming Fundamentals"));
+		//subjectList.add(new Subject("Prof Development"));
+		//subjectList.add(new Subject("Computational Methods"));
 		
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
@@ -141,11 +147,12 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 				}
 			}
 			
+			saveToFile(subjectList, "content");
 		}
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println(e.getMessage());
+			System.out.println("Error - " + e.getMessage());
 		}
 	}
 	
@@ -186,7 +193,6 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 					
 				updateMessageBoard();
 			}
-			
 		}
 		catch(Exception e)
 		{
@@ -248,6 +254,35 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 			{
 				note.append(msg.getAuthor().getUsername() + ": " + msg.getText());
 			}
+		}
+	}
+	
+	public void saveToFile(Object obj, String path)
+	{
+		try
+		{
+			ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(path));
+			objectOutputStream.writeObject(obj);
+			objectOutputStream.flush();
+			objectOutputStream.close();
+		}
+		catch(Exception e)
+		{
+			System.out.println("Error - " + e.getMessage());
+		}
+	}
+	
+	public Object readFromFile(String path)
+	{
+		try
+		{
+			ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(path));
+			return objectInputStream.readObject();
+		}
+		catch(Exception e)
+		{
+			System.out.println("Error - " + e.getMessage());
+			return null;
 		}
 	}
 }

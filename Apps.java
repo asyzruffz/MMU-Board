@@ -12,11 +12,12 @@ import javax.swing.*;
 
 public class Apps
 {
-	MainFrame mFrame = new MainFrame("Online MMU-Board System");
+	MainFrame mFrame;
 	
 	public Apps()
 	{
 		System.out.println("Apps initialized!");
+		mFrame = new MainFrame("Online MMU-Board System");
 		
 		JDialog loginDialog = new JDialog(mFrame);
 		Container loginContent = loginDialog.getContentPane();
@@ -49,7 +50,8 @@ public class Apps
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println(e.getMessage());
+			System.out.println("Error - " + e.getMessage());
+			System.exit(0);
 		}
 	}
 }
