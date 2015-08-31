@@ -5,30 +5,26 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.util.*;
 
-public class Operating extends Session implements ActionListener, ListSelectionListener, FocusListener
+public class OperationPanel extends JPanel implements ActionListener, ListSelectionListener, FocusListener
 {
 	private Vector<Subject> subjectList = new Vector<Subject>();
 	private Subject selectedSubject = null;
 	private Discussion selectedDiscussion = null;
+	private User currentAuthor = new User();
 	private JList allSubjects;
 	private JList allDiscussions = new JList();
 	private JTextArea messageArea = new JTextArea("Enter your post here...", 5, 0);
 	private JTextArea note = new JTextArea(50, 0);
 	
-	public Operating()
+	public OperationPanel(User user)
 	{
+		setLayout(new GridLayout(1, 1));
+		currentAuthor = user;
 		initPanel();
 	}
 	
-	public Operating(LayoutManager layout)
+	private void initPanel()
 	{
-		super(layout);
-		initPanel();
-	}
-	
-	protected void initPanel()
-	{
-		
 		Vector fromFile = (Vector)readFromFile("content");
 		if(fromFile != null)
 			subjectList = fromFile;
@@ -90,7 +86,7 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		leftPanel.setMinimumSize(minimumSize);
 		middlePanel.setMinimumSize(minimumSize);
 		
-		super.add(splitPane);
+		this.add(splitPane);
 	}
 	
 	public void actionPerformed(ActionEvent evt)
@@ -136,7 +132,7 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 					
 					if((commentText != null) && (commentText.length() > 0) && (!commentText.equals("Enter your post here...\n")))
 					{
-						selectedDiscussion.addComment(new Comment(commentText));
+						selectedDiscussion.addComment(new Comment(commentText, currentAuthor));
 						updateMessageBoard();
 						messageArea.setText("Enter your post here...");
 					}
@@ -278,6 +274,11 @@ public class Operating extends Session implements ActionListener, ListSelectionL
 		{
 			ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(path));
 			return objectInputStream.readObject();
+		}
+		catch(FileNotFoundException e)
+		{
+			System.out.println("Warning - " + e.getMessage());
+			return null;
 		}
 		catch(Exception e)
 		{

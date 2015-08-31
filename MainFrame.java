@@ -7,32 +7,24 @@ import javax.swing.border.*;
 public class MainFrame extends JFrame implements ActionListener
 {
 	JButton bttn;
-	JFileChooser fch;
-	
-	//private Login loginSession = new Login(new FlowLayout());
-	//private Operating operatingSession = new Operating(new GridLayout(1, 1));
-	private Session currentSession = new Operating(new GridLayout(1, 1));
+	JFileChooser fch = new JFileChooser();
+	User currentUser = new User();
 	
 	public MainFrame(String title)
 	{
 		super(title);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(MainFrame.EXIT_ON_CLOSE);
 		setSize(800, 600);
 		setIconImage(new ImageIcon("mmuico.png", "").getImage());
-		fch = new JFileChooser();
 		WindowUtilities.setNativeLookAndFeel();
 		SwingUtilities.updateComponentTreeUI(fch);
-		SwingUtilities.updateComponentTreeUI(currentSession);
+		
+		LoginDialog loginPrompt = new LoginDialog(this);
+		currentUser = loginPrompt.acquireUser();
+		System.out.println(currentUser.getUsername() + " is signed in!");
+		
 		setMenus();
 		setPanels();
-		
-		JDialog loginDialog = new JDialog(this);
-		Container loginContent = loginDialog.getContentPane();
-		loginContent.add(new Login(new FlowLayout()));
-		loginDialog.setSize(300, 400);
-		loginDialog.setResizable(false);
-		loginDialog.setLocationRelativeTo(this);
-		loginDialog.setVisible(true);
 		
 		setExtendedState(MainFrame.MAXIMIZED_BOTH);
 		setVisible(true);
@@ -129,8 +121,7 @@ public class MainFrame extends JFrame implements ActionListener
 		toolBar.add(bttn);
 		content.add(toolBar, BorderLayout.PAGE_START);
 		
-		currentSession.setSourceListener(this);
-		content.add(currentSession, BorderLayout.CENTER);
+		content.add(new OperationPanel(currentUser), BorderLayout.CENTER);
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));

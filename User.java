@@ -4,12 +4,12 @@ public class User implements Serializable
 {
 	private int userID;
 	private String username = "Guest";
-	private String password = "";
+	private char[] password;
 	
 	public User() {}
 	
-	public User(String username){
-		this.username = username;
+	public User(String name){
+		username = name;
 	}
 	
 	public int getUserID(){
@@ -20,15 +20,19 @@ public class User implements Serializable
 		return username;
 	}
 	
-	public void setUsername(String username){
-		this.username = username;
+	public void setUsername(String name){
+		username = name;
 	}
 	
-	public String getPassword(){
+	public char[] getPassword(){
 		return password;
 	}
 	
-	public void setPassword(String password){
-		this.password = password;
+	public void setPassword(char[] pass){
+		password = pass;
 	}
+	
+	public String toString() {
+        return username;
+    }
 }
