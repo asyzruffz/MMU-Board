@@ -248,7 +248,14 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 			
 			for(Comment msg : selectedDiscussion.getAllComment())
 			{
-				note.append(msg.getAuthor().getUsername() + ": " + msg.getText());
+				if(!msg.getAuthor().getNickname().equals(""))
+				{
+					note.append(msg.getAuthor().getNickname() + ": " + msg.getText());
+				}
+				else
+				{
+					note.append(msg.getAuthor().getUsername() + ": " + msg.getText());
+				}
 			}
 		}
 	}

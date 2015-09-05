@@ -3,8 +3,10 @@ import java.io.*;
 public class User implements Serializable
 {
 	private int userID;
+	private boolean pendingApproval = true;
 	private String username = "Guest";
 	private char[] password;
+	private String nickname = "Guest";
 	
 	public User() {}
 	
@@ -30,6 +32,18 @@ public class User implements Serializable
 	
 	public void setPassword(char[] pass){
 		password = pass;
+	}
+	
+	public String getNickname(){
+		return nickname;
+	}
+	
+	public void setNickname(String name){
+		nickname = name;
+	}
+	
+	public boolean isPending(){
+		return pendingApproval;
 	}
 	
 	public String toString() {

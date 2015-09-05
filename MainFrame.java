@@ -23,6 +23,13 @@ public class MainFrame extends JFrame implements ActionListener
 		currentUser = loginPrompt.acquireUser();
 		System.out.println(currentUser.getUsername() + " is signed in!");
 		
+		System.out.println("List of users:\n{");
+		for(User us : loginPrompt.getUserList())
+		{
+			System.out.println("\t" + us);
+		}
+		System.out.println("}");
+		
 		setMenus();
 		setPanels();
 		
@@ -34,74 +41,89 @@ public class MainFrame extends JFrame implements ActionListener
 	{
 		//Create the menu bar.
 		JMenuBar menuBar = new JMenuBar();
-		
-		//Build the menu.
-		JMenu menu1 = new JMenu(" File ");
-		menu1.setMnemonic(KeyEvent.VK_F);
-		menu1.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
-		menuBar.add(menu1);
-		
+		JMenu menu;
 		JMenuItem menuItem;
-		//a group of JMenuItems
+		
+		//File menu  ----------------------------------------------------------------------------------------------------------|
+		menu = new JMenu(" File ");
+		menu.setMnemonic(KeyEvent.VK_F);
+		menu.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
+		menuBar.add(menu);
+		
 		menuItem = new JMenuItem("New", KeyEvent.VK_N);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
 		menuItem.addActionListener(this);
-		menu1.add(menuItem);
+		menu.add(menuItem);
 		
 		menuItem = new JMenuItem("Open...", KeyEvent.VK_O);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
 		menuItem.addActionListener(this);
-		menu1.add(menuItem);
+		menu.add(menuItem);
 		
 		menuItem = new JMenuItem("Save As...", KeyEvent.VK_S);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
 		menuItem.addActionListener(this);
-		menu1.add(menuItem);
+		menu.add(menuItem);
 		
-		menu1.addSeparator();
+		menu.addSeparator();
 		
 		menuItem = new JMenuItem("Exit", KeyEvent.VK_Q);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
 		menuItem.addActionListener(this);
-		menu1.add(menuItem);
+		menu.add(menuItem);
 		
-		JMenu menu2 = new JMenu(" Edit ");
-		menu2.setMnemonic(KeyEvent.VK_E);
-		menu2.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
-		menuBar.add(menu2);
+		//Edit menu  ----------------------------------------------------------------------------------------------------------|
+		menu = new JMenu(" Edit ");
+		menu.setMnemonic(KeyEvent.VK_E);
+		menu.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
+		menuBar.add(menu);
 		
 		menuItem = new JMenuItem("Cut", KeyEvent.VK_X);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
 		menuItem.addActionListener(this);
-		menu2.add(menuItem);
+		menu.add(menuItem);
 		
 		menuItem = new JMenuItem("Copy", KeyEvent.VK_C);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
 		menuItem.addActionListener(this);
-		menu2.add(menuItem);
+		menu.add(menuItem);
 		
 		menuItem = new JMenuItem("Paste", KeyEvent.VK_P);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
 		menuItem.addActionListener(this);
-		menu2.add(menuItem);
+		menu.add(menuItem);
 		
-		JMenu menu3 = new JMenu(" Help ");
-		menu3.setMnemonic(KeyEvent.VK_H);
-		menu3.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
-		menuBar.add(menu3);
+		//User menu  ----------------------------------------------------------------------------------------------------------|
+		menu = new JMenu(" User ");
+		menu.setMnemonic(KeyEvent.VK_U);
+		menu.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
+		menuBar.add(menu);
+		
+		menuItem = new JMenuItem("Register", KeyEvent.VK_R);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
+		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
+		
+		//Help menu  ----------------------------------------------------------------------------------------------------------|
+		menu = new JMenu(" Help ");
+		menu.setMnemonic(KeyEvent.VK_H);
+		menu.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
+		menuBar.add(menu);
 		
 		menuItem = new JMenuItem("About", KeyEvent.VK_A);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
 		menuItem.addActionListener(this);
-		menu3.add(menuItem);
+		menu.add(menuItem);
+		//  -------------------------------------------------------------------------------------------------------------------|
 		
 		setJMenuBar(menuBar);
 	}
@@ -125,19 +147,24 @@ public class MainFrame extends JFrame implements ActionListener
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));
-		//bottomPanel.add(new JTextField(15));                                    // <- this
 		bottomPanel.add(Box.createHorizontalStrut(5));
-		bottomPanel.add(new JButton("Search"));
+		bottomPanel.add(new JButton("Setting"));
 		bottomPanel.add(Box.createHorizontalStrut(5));
 		bottomPanel.add(new JSeparator(JSeparator.VERTICAL));
 		bottomPanel.add(Box.createHorizontalStrut(5));
-		bottomPanel.add(Box.createHorizontalGlue()); // not working, maybe because of ^
+		bottomPanel.add(new JLabel("Welcome! You are signed in as "));
+		bottomPanel.add(new JLabel(currentUser.getUsername()));
+		bottomPanel.add(Box.createHorizontalStrut(5));
+		bottomPanel.add(new JSeparator(JSeparator.VERTICAL));
+		bottomPanel.add(Box.createHorizontalStrut(5));
+		bottomPanel.add(Box.createHorizontalGlue());
+		bottomPanel.add(Box.createHorizontalGlue());
 		//bottomPanel.add(new JLabel("                                                                                                                                                               "));
-		bottomPanel.add(Box.createHorizontalStrut(5));
-		bottomPanel.add(new JSeparator(JSeparator.VERTICAL));
-		bottomPanel.add(Box.createHorizontalStrut(5));
-		bottomPanel.add(new JLabel("Made by Asyraf"));
-		bottomPanel.add(Box.createHorizontalStrut(5));
+		//bottomPanel.add(Box.createHorizontalStrut(5));
+		//bottomPanel.add(new JSeparator(JSeparator.VERTICAL));
+		//bottomPanel.add(Box.createHorizontalStrut(5));
+		//bottomPanel.add(new JLabel("Made by Asyraf"));
+		//bottomPanel.add(Box.createHorizontalStrut(5));
 		//bottomPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		content.add(bottomPanel, BorderLayout.PAGE_END);
 	}
@@ -171,6 +198,11 @@ public class MainFrame extends JFrame implements ActionListener
 				
 				JOptionPane.showMessageDialog(this, "Can't save anything yet!");
             }
+		}
+		else if(btnText.equals("Register"))
+		{
+			RegisterDialog registerPrompt = new RegisterDialog(this);
+			System.out.println(registerPrompt.acquireUser().getUsername() + " is registered!");
 		}
 		else
 		{

@@ -3,26 +3,20 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
-public class LoginDialog extends JDialog implements ActionListener
+public class RegisterDialog extends JDialog implements ActionListener
 {
 	User incomingUser = new User();
 	JTextField usernameField = new JTextField(20);
+	JTextField nicknameField = new JTextField(20);
 	JPasswordField passwordField = new JPasswordField(20);
 	private Vector<User> userList = new Vector<User>();
 	
-	public LoginDialog(JFrame owner)
+	public RegisterDialog(JFrame owner)
 	{
 		super(owner, true);
 		setSize(300, 400);
 		setResizable(false);
 		setLocationRelativeTo(this);
-		addWindowListener(new WindowAdapter()
-		{
-			public void windowClosing(WindowEvent evt)
-			{
-				System.exit(0);
-			}
-		});
 		
 		initPanel();
 		setVisible(true);
@@ -37,21 +31,23 @@ public class LoginDialog extends JDialog implements ActionListener
 		userPanel.add(new JLabel("Username: "));
 		userPanel.add(usernameField);
 		
+		JPanel nickPanel = new JPanel(new FlowLayout());
+		nickPanel.add(new JLabel("Nickname: "));
+		nickPanel.add(nicknameField);
+		
 		JPanel passPanel = new JPanel(new FlowLayout());
 		passPanel.add(new JLabel("Password: "));
 		passPanel.add(passwordField);
 		
-		JButton signinBtn = new JButton("Sign in");
-		signinBtn.addActionListener(this);
-		JButton guestBtn = new JButton("Be a Guest");
-		guestBtn.addActionListener(this);
+		JButton registerBtn = new JButton("Register");
+		registerBtn.addActionListener(this);
 		
 		JPanel newLoginPanel = new JPanel();
 		newLoginPanel.setLayout(new GridLayout(4, 1));
 		newLoginPanel.add(userPanel);
+		newLoginPanel.add(nickPanel);
 		newLoginPanel.add(passPanel);
-		newLoginPanel.add(signinBtn);
-		newLoginPanel.add(guestBtn);
+		newLoginPanel.add(registerBtn);
 		
 		loginContent.add(newLoginPanel);
 		
@@ -65,43 +61,29 @@ public class LoginDialog extends JDialog implements ActionListener
 		return incomingUser;
 	}
 	
-	public Vector<User> getUserList()
-	{
-		return userList;
-	}
-	
 	public void actionPerformed(ActionEvent evt)
 	{
 		String btnText = evt.getActionCommand();
 		
-		if(btnText.equals("Sign in"))
+		if(btnText.equals("Register"))
 		{
-			for(User us : userList)
+			if(!usernameField.getText().equals("") && passwordField.getPassword().length > 0)
 			{
-				if(us.getUsername().equals(usernameField.getText()))
-				{
-					if(Arrays.equals(us.getPassword(), passwordField.getPassword()))
-					{
-						incomingUser = us;
-						
-						setVisible(false);
-						dispose();
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(this, "Wrong password!");
-					}
-					
-					return;
-				}
+				incomingUser.setUsername(usernameField.getText());
+				incomingUser.setNickname(nicknameField.getText());
+				incomingUser.setPassword(passwordField.getPassword());
+				
+				userList.add(incomingUser);
+				FileOperation.saveToFile(userList, "users");
+				
+				setVisible(false);
+				dispose();
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this, "Please fill in the required field!");
 			}
 			
-			JOptionPane.showMessageDialog(this, "No such user registered!");
-		}
-		else if(btnText.equals("Be a Guest"))
-		{
-			setVisible(false);
-			dispose();
 		}
 	}
 }
