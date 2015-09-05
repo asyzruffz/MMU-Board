@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.*;
 
 public class LoginDialog extends JDialog implements ActionListener
 {
@@ -8,6 +9,7 @@ public class LoginDialog extends JDialog implements ActionListener
 	User user = new User();
 	JTextField usernameField = new JTextField(20);
 	JPasswordField passwordField = new JPasswordField(20);
+	private Vector<User> userList = new Vector<User>();
 	
 	public LoginDialog(JFrame owner)
 	{
@@ -15,6 +17,13 @@ public class LoginDialog extends JDialog implements ActionListener
 		setSize(300, 400);
 		setResizable(false);
 		setLocationRelativeTo(this);
+		addWindowListener(new WindowAdapter()
+		{
+			public void windowClosing(WindowEvent evt)
+			{
+				System.exit(0);
+			}
+		});
 		
 		initPanel();
 		setVisible(true);
@@ -35,14 +44,21 @@ public class LoginDialog extends JDialog implements ActionListener
 		
 		JButton signinBtn = new JButton("Sign in");
 		signinBtn.addActionListener(this);
+		JButton guestBtn = new JButton("Be a Guest");
+		signinBtn.addActionListener(this);
 		
 		JPanel newLoginPanel = new JPanel();
-		newLoginPanel.setLayout(new GridLayout(3, 1));
+		newLoginPanel.setLayout(new GridLayout(4, 1));
 		newLoginPanel.add(userPanel);
 		newLoginPanel.add(passPanel);
 		newLoginPanel.add(signinBtn);
+		newLoginPanel.add(guestBtn);
 		
 		loginContent.add(newLoginPanel);
+		
+		Object fromFile = FileOperation.readFromFile("users");
+		if(fromFile != null)
+			userList = (Vector<User>)fromFile;
 	}
 	
 	public User acquireUser()
@@ -59,6 +75,14 @@ public class LoginDialog extends JDialog implements ActionListener
 			user.setUsername(usernameField.getText());
 			user.setPassword(passwordField.getPassword());
 			
+			userList.add(user);
+			FileOperation.saveToFile(userList, "users");
+			
+			setVisible(false);
+			dispose();
+		}
+		else if(btnText.equals("Be a Guest"))
+		{
 			setVisible(false);
 			dispose();
 		}

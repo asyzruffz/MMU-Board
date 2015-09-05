@@ -11,8 +11,8 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 	private Subject selectedSubject = null;
 	private Discussion selectedDiscussion = null;
 	private User currentAuthor = new User();
-	private JList allSubjects;
-	private JList allDiscussions = new JList();
+	private JList<Subject> allSubjects;
+	private JList<Discussion> allDiscussions = new JList<Discussion>();
 	private JTextArea messageArea = new JTextArea("Enter your post here...", 5, 0);
 	private JTextArea note = new JTextArea(50, 0);
 	
@@ -25,9 +25,9 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 	
 	private void initPanel()
 	{
-		Vector fromFile = (Vector)readFromFile("content");
+		Object fromFile = FileOperation.readFromFile("content");
 		if(fromFile != null)
-			subjectList = fromFile;
+			subjectList = (Vector<Subject>)fromFile;
 		
 		//subjectList.add(new Subject("Calculus"));
 		//subjectList.add(new Subject("Discreet Structure"));
@@ -38,7 +38,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
 		
-		allSubjects = new JList(subjectList);
+		allSubjects = new JList<Subject>(subjectList);
 		allSubjects.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		allSubjects.setLayoutOrientation(JList.VERTICAL);
 		allSubjects.setVisibleRowCount(-1);
@@ -98,24 +98,24 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 			
 			if(btnText.equals("Add New Subject"))
 			{
-				String subjectName = (String)JOptionPane.showInputDialog(this.getTopLevelAncestor(), "Subject Name: ", "Add New Subject", JOptionPane.PLAIN_MESSAGE);
+				String subjectName = JOptionPane.showInputDialog(this.getTopLevelAncestor(), "Subject Name: ", "Add New Subject", JOptionPane.PLAIN_MESSAGE);
 				
 				if((subjectName != null) && (subjectName.length() > 0))
 				{
 					subjectList.add(new Subject(subjectName));
-					selectedSubject = (Subject)updateList(allSubjects, subjectList);
+					selectedSubject = updateList(allSubjects, subjectList);
 				}
 			}
 			else if(btnText.equals("Add New Discussion"))
 			{
 				if(selectedSubject != null)
 				{
-					String discussionTitle = (String)JOptionPane.showInputDialog(this.getTopLevelAncestor(), "Discussion Title: ", "Add New Discussion", JOptionPane.PLAIN_MESSAGE);
+					String discussionTitle = JOptionPane.showInputDialog(this.getTopLevelAncestor(), "Discussion Title: ", "Add New Discussion", JOptionPane.PLAIN_MESSAGE);
 					
 					if((discussionTitle != null) && (discussionTitle.length() > 0))
 					{
 						selectedSubject.addDiscussion(new Discussion(discussionTitle));
-						selectedDiscussion = (Discussion)updateList(allDiscussions, selectedSubject.getAllDiscussions());
+						selectedDiscussion = updateList(allDiscussions, selectedSubject.getAllDiscussions());
 						updateMessageBoard();
 					}
 				}
@@ -143,7 +143,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 				}
 			}
 			
-			saveToFile(subjectList, "content");
+			FileOperation.saveToFile(subjectList, "content");
 		}
 		catch(Exception e)
 		{
@@ -157,7 +157,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		try
 		{
 		
-			JList list = (JList)evt.getSource();
+			JList<?> list = (JList<?>)evt.getSource();
 			
 			// At least one object is selected
 			if(!list.isSelectionEmpty())
@@ -217,11 +217,11 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		}
 	}
 	
-	public Object updateList(JList list, Vector newVector)
+	public <T> T updateList(JList<T> list, Vector<T> newVector)
 	{
 		// Recreate a new list model & add the updated object list
-		DefaultListModel listModel = new DefaultListModel();
-		for(Object obj : newVector)
+		DefaultListModel<T> listModel = new DefaultListModel<T>();
+		for(T obj : newVector)
 		{
 			listModel.addElement(obj);
 		}
@@ -250,40 +250,6 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 			{
 				note.append(msg.getAuthor().getUsername() + ": " + msg.getText());
 			}
-		}
-	}
-	
-	public void saveToFile(Object obj, String path)
-	{
-		try
-		{
-			ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(path));
-			objectOutputStream.writeObject(obj);
-			objectOutputStream.flush();
-			objectOutputStream.close();
-		}
-		catch(Exception e)
-		{
-			System.out.println("Error - " + e.getMessage());
-		}
-	}
-	
-	public Object readFromFile(String path)
-	{
-		try
-		{
-			ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(path));
-			return objectInputStream.readObject();
-		}
-		catch(FileNotFoundException e)
-		{
-			System.out.println("Warning - " + e.getMessage());
-			return null;
-		}
-		catch(Exception e)
-		{
-			System.out.println("Error - " + e.getMessage());
-			return null;
 		}
 	}
 }
