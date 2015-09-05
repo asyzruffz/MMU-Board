@@ -39,7 +39,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
 		
 		allSubjects = new JList<Subject>(subjectList);
-		allSubjects.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		allSubjects.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		allSubjects.setLayoutOrientation(JList.VERTICAL);
 		allSubjects.setVisibleRowCount(-1);
 		allSubjects.addListSelectionListener(this);
@@ -47,7 +47,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		JButton newSubjBtn = new JButton("Add New Subject");
 		newSubjBtn.addActionListener(this);
 		
-		allDiscussions.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		allDiscussions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		allDiscussions.setLayoutOrientation(JList.VERTICAL);
 		allDiscussions.setVisibleRowCount(-1);
 		allDiscussions.addListSelectionListener(this);
@@ -93,7 +93,6 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 	{
 		try
 		{
-			
 			String btnText = evt.getActionCommand();
 			
 			if(btnText.equals("Add New Subject"))
@@ -156,7 +155,6 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 	{
 		try
 		{
-		
 			JList<?> list = (JList<?>)evt.getSource();
 			
 			// At least one object is selected
@@ -193,7 +191,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println(e.getMessage());
+			System.out.println("Error - " + e.getMessage());
 		}
 	}
 	

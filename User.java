@@ -46,6 +46,10 @@ public class User implements Serializable
 		return pendingApproval;
 	}
 	
+	public void setApproved(){
+		pendingApproval = false;
+	}
+	
 	public String toString() {
         return username;
     }

@@ -82,10 +82,17 @@ public class LoginDialog extends JDialog implements ActionListener
 				{
 					if(Arrays.equals(us.getPassword(), passwordField.getPassword()))
 					{
-						incomingUser = us;
-						
-						setVisible(false);
-						dispose();
+						if(!us.isPending())
+						{
+							incomingUser = us;
+							
+							setVisible(false);
+							dispose();
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(this, "This account has not been authorized!");
+						}
 					}
 					else
 					{

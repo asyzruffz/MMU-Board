@@ -47,7 +47,7 @@ public class MainFrame extends JFrame implements ActionListener
 		//File menu  ----------------------------------------------------------------------------------------------------------|
 		menu = new JMenu(" File ");
 		menu.setMnemonic(KeyEvent.VK_F);
-		menu.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
+		menu.getAccessibleContext().setAccessibleDescription("The menu for file related operation");
 		menuBar.add(menu);
 		
 		menuItem = new JMenuItem("New", KeyEvent.VK_N);
@@ -58,13 +58,13 @@ public class MainFrame extends JFrame implements ActionListener
 		
 		menuItem = new JMenuItem("Open...", KeyEvent.VK_O);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
+		menuItem.getAccessibleContext().setAccessibleDescription("This only opens the File Chooser");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 		
 		menuItem = new JMenuItem("Save As...", KeyEvent.VK_S);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
+		menuItem.getAccessibleContext().setAccessibleDescription("This only opens the File Chooser");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 		
@@ -72,14 +72,14 @@ public class MainFrame extends JFrame implements ActionListener
 		
 		menuItem = new JMenuItem("Exit", KeyEvent.VK_Q);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
-		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
+		menuItem.getAccessibleContext().setAccessibleDescription("This exits the program");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 		
 		//Edit menu  ----------------------------------------------------------------------------------------------------------|
 		menu = new JMenu(" Edit ");
 		menu.setMnemonic(KeyEvent.VK_E);
-		menu.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
+		menu.getAccessibleContext().setAccessibleDescription("The menu for editing");
 		menuBar.add(menu);
 		
 		menuItem = new JMenuItem("Cut", KeyEvent.VK_X);
@@ -103,19 +103,25 @@ public class MainFrame extends JFrame implements ActionListener
 		//User menu  ----------------------------------------------------------------------------------------------------------|
 		menu = new JMenu(" User ");
 		menu.setMnemonic(KeyEvent.VK_U);
-		menu.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
+		menu.getAccessibleContext().setAccessibleDescription("The menu for managing users");
 		menuBar.add(menu);
 		
 		menuItem = new JMenuItem("Register", KeyEvent.VK_R);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
-		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
+		menuItem.getAccessibleContext().setAccessibleDescription("This register guest as user");
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
+		
+		menuItem = new JMenuItem("Authorize Registration", KeyEvent.VK_I);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.CTRL_MASK));
+		menuItem.getAccessibleContext().setAccessibleDescription("This authorize the user registrations");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 		
 		//Help menu  ----------------------------------------------------------------------------------------------------------|
 		menu = new JMenu(" Help ");
 		menu.setMnemonic(KeyEvent.VK_H);
-		menu.getAccessibleContext().setAccessibleDescription("The only menu in this program that has menu items");
+		menu.getAccessibleContext().setAccessibleDescription("The menu for help");
 		menuBar.add(menu);
 		
 		menuItem = new JMenuItem("About", KeyEvent.VK_A);
@@ -202,7 +208,10 @@ public class MainFrame extends JFrame implements ActionListener
 		else if(btnText.equals("Register"))
 		{
 			RegisterDialog registerPrompt = new RegisterDialog(this);
-			System.out.println(registerPrompt.acquireUser().getUsername() + " is registered!");
+		}
+		else if(btnText.equals("Authorize Registration"))
+		{
+			InvitationDialog invitePrompt = new InvitationDialog(this);
 		}
 		else
 		{

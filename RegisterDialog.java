@@ -76,6 +76,8 @@ public class RegisterDialog extends JDialog implements ActionListener
 				userList.add(incomingUser);
 				FileOperation.saveToFile(userList, "users");
 				
+				System.out.println(incomingUser.getUsername() + " is registered!");
+				
 				setVisible(false);
 				dispose();
 			}
