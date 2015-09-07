@@ -114,7 +114,7 @@ public class MainFrame extends JFrame implements ActionListener
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This register guest as user");
 		menuItem.addActionListener(this);
-		menuItem.setEnabled(currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
+		menuItem.setEnabled(currentUser.requireAccessLevel(User.AccessLevel.GUEST));
 		menu.add(menuItem);
 		
 		menuItem = new JMenuItem("Authorize Registration", KeyEvent.VK_I);

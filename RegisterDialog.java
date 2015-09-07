@@ -39,14 +39,30 @@ public class RegisterDialog extends JDialog implements ActionListener
 		passPanel.add(new JLabel("Password: "));
 		passPanel.add(passwordField);
 		
+		JPanel typePanel = new JPanel(new FlowLayout());
+		JRadioButton studSelectBtn = new JRadioButton("Student");
+		studSelectBtn.setActionCommand("Student");
+		studSelectBtn.setSelected(true);
+		incomingUser.setAccessLevel(User.AccessLevel.STUDENT);
+		studSelectBtn.addActionListener(this);
+		JRadioButton lectSelectBtn = new JRadioButton("Lecturer");
+		lectSelectBtn.setActionCommand("Lecturer");
+		lectSelectBtn.addActionListener(this);
+		ButtonGroup userTypeGroup = new ButtonGroup();
+		userTypeGroup.add(studSelectBtn);
+		userTypeGroup.add(lectSelectBtn);
+		typePanel.add(studSelectBtn);
+		typePanel.add(lectSelectBtn);
+		
 		JButton registerBtn = new JButton("Register");
 		registerBtn.addActionListener(this);
 		
 		JPanel newLoginPanel = new JPanel();
-		newLoginPanel.setLayout(new GridLayout(4, 1));
+		newLoginPanel.setLayout(new GridLayout(5, 1));
 		newLoginPanel.add(userPanel);
 		newLoginPanel.add(nickPanel);
 		newLoginPanel.add(passPanel);
+		newLoginPanel.add(typePanel);
 		newLoginPanel.add(registerBtn);
 		
 		loginContent.add(newLoginPanel);
@@ -86,6 +102,14 @@ public class RegisterDialog extends JDialog implements ActionListener
 				JOptionPane.showMessageDialog(this, "Please fill in the required field!");
 			}
 			
+		}
+		else if(btnText.equals("Student"))
+		{
+			incomingUser.setAccessLevel(User.AccessLevel.STUDENT);
+		}
+		else if(btnText.equals("Lecturer"))
+		{
+			incomingUser.setAccessLevel(User.AccessLevel.STUDENT);
 		}
 	}
 }
