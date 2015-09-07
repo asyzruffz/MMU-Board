@@ -2,11 +2,19 @@ import java.io.*;
 
 public class User implements Serializable
 {
-	private int userID;
+	public enum AccessLevel 
+	{
+		GUEST,
+		STUDENT,
+		LECTURER,
+		ADMIN
+	}
+	
 	private boolean pendingApproval = true;
 	private String username = "Guest";
 	private char[] password;
 	private String nickname = "Guest";
+	private AccessLevel clearance = AccessLevel.GUEST;
 	
 	public User() {}
 	
@@ -14,8 +22,12 @@ public class User implements Serializable
 		username = name;
 	}
 	
-	public int getUserID(){
-		return userID;
+	public User(String name, char[] pass, String nick, AccessLevel lvl, boolean approv){
+		username = name;
+		password = pass;
+		nickname = nick;
+		clearance = lvl;
+		pendingApproval = approv;
 	}
 	
 	public String getUsername(){
@@ -48,6 +60,14 @@ public class User implements Serializable
 	
 	public void setApproved(){
 		pendingApproval = false;
+	}
+	
+	public void setAccessLevel(AccessLevel level){
+		clearance = level;
+	}
+	
+	public boolean requireAccessLevel(AccessLevel level){
+		return clearance.ordinal() >= level.ordinal();
 	}
 	
 	public String toString() {

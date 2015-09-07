@@ -9,6 +9,8 @@ public class LoginDialog extends JDialog implements ActionListener
 	JTextField usernameField = new JTextField(20);
 	JPasswordField passwordField = new JPasswordField(20);
 	private Vector<User> userList = new Vector<User>();
+	char[] adminPass = {'1','2','3','4','5'};
+	User admin = new User("admin", adminPass, "Admin", User.AccessLevel.ADMIN, false);
 	
 	public LoginDialog(JFrame owner)
 	{
@@ -76,6 +78,14 @@ public class LoginDialog extends JDialog implements ActionListener
 		
 		if(btnText.equals("Sign in"))
 		{
+			if(usernameField.getText().equals(admin.getUsername()) && Arrays.equals(passwordField.getPassword(), admin.getPassword()))
+			{
+				incomingUser = admin;
+				setVisible(false);
+				dispose();
+				return;
+			}
+			
 			for(User us : userList)
 			{
 				if(us.getUsername().equals(usernameField.getText()))
