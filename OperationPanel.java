@@ -46,6 +46,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		JScrollPane subjScrollPane = new JScrollPane(allSubjects);
 		JButton newSubjBtn = new JButton("Add New Subject");
 		newSubjBtn.addActionListener(this);
+		newSubjBtn.setEnabled(currentAuthor.requireAccessLevel(User.AccessLevel.LECTURER));
 		
 		allDiscussions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		allDiscussions.setLayoutOrientation(JList.VERTICAL);
@@ -54,6 +55,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		JScrollPane discScrollPane = new JScrollPane(allDiscussions);
 		JButton newDiscBtn = new JButton("Add New Discussion");
 		newDiscBtn.addActionListener(this);
+		newDiscBtn.setEnabled(currentAuthor.requireAccessLevel(User.AccessLevel.LECTURER));
 		
 		leftPanel.add(subjScrollPane);
 		leftPanel.add(newSubjBtn);
@@ -69,6 +71,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		messageArea.addFocusListener(this);
 		messagePanel.add(new JScrollPane(messageArea));
 		JButton postBtn = new JButton("Post");
+		postBtn.setEnabled(currentAuthor.requireAccessLevel(User.AccessLevel.STUDENT));
 		postBtn.addActionListener(this);
 		messagePanel.add(postBtn);
 		middlePanel.add(messagePanel);

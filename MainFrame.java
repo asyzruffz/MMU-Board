@@ -54,6 +54,7 @@ public class MainFrame extends JFrame implements ActionListener
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
 		menuItem.addActionListener(this);
+		menuItem.setEnabled(false);
 		menu.add(menuItem);
 		
 		menuItem = new JMenuItem("Open...", KeyEvent.VK_O);
@@ -86,18 +87,21 @@ public class MainFrame extends JFrame implements ActionListener
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
 		menuItem.addActionListener(this);
+		menuItem.setEnabled(false);
 		menu.add(menuItem);
 		
 		menuItem = new JMenuItem("Copy", KeyEvent.VK_C);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
 		menuItem.addActionListener(this);
+		menuItem.setEnabled(false);
 		menu.add(menuItem);
 		
 		menuItem = new JMenuItem("Paste", KeyEvent.VK_P);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
 		menuItem.addActionListener(this);
+		menuItem.setEnabled(false);
 		menu.add(menuItem);
 		
 		//User menu  ----------------------------------------------------------------------------------------------------------|
@@ -110,12 +114,14 @@ public class MainFrame extends JFrame implements ActionListener
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This register guest as user");
 		menuItem.addActionListener(this);
+		menuItem.setEnabled(currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
 		menu.add(menuItem);
 		
 		menuItem = new JMenuItem("Authorize Registration", KeyEvent.VK_I);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This authorize the user registrations");
 		menuItem.addActionListener(this);
+		menuItem.setEnabled(currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
 		menu.add(menuItem);
 		
 		//Help menu  ----------------------------------------------------------------------------------------------------------|
