@@ -4,13 +4,23 @@ public class User implements Serializable
 {
 	public enum AccessLevel 
 	{
-		GUEST,
-		STUDENT,
-		LECTURER,
-		ADMIN
+		GUEST("Guest"),
+		STUDENT("Student"),
+		LECTURER("Lecturer"),
+		ADMIN("Admin");
+		
+		private final String name;
+			
+		private AccessLevel(String s){
+			name = s;
+		}
+		
+		public String toString(){
+			return name;
+		}
 	}
 	
-	private boolean pendingApproval = true;
+	private boolean approved = false;
 	private String username = "Guest";
 	private char[] password;
 	private String nickname = "Guest";
@@ -22,12 +32,12 @@ public class User implements Serializable
 		username = name;
 	}
 	
-	public User(String name, char[] pass, String nick, AccessLevel lvl, boolean approv){
+	public User(String name, char[] pass, String nick, AccessLevel lvl, boolean apprv){
 		username = name;
 		password = pass;
 		nickname = nick;
 		clearance = lvl;
-		pendingApproval = approv;
+		approved = apprv;
 	}
 	
 	public String getUsername(){
@@ -55,11 +65,15 @@ public class User implements Serializable
 	}
 	
 	public boolean isPending(){
-		return pendingApproval;
+		return !approved;
 	}
 	
-	public void setApproved(){
-		pendingApproval = false;
+	public void setApproved(boolean approval){
+		approved = approval;
+	}
+	
+	public AccessLevel getAccessLevel(){
+		return clearance;
 	}
 	
 	public void setAccessLevel(AccessLevel level){

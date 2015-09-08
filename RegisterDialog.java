@@ -109,7 +109,7 @@ public class RegisterDialog extends JDialog implements ActionListener
 		}
 		else if(btnText.equals("Lecturer"))
 		{
-			incomingUser.setAccessLevel(User.AccessLevel.STUDENT);
+			incomingUser.setAccessLevel(User.AccessLevel.LECTURER);
 		}
 	}
 }

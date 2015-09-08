@@ -4,9 +4,9 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.util.*;
 
-public class InvitationDialog extends JDialog implements ActionListener, ListSelectionListener
+public class InvitationDialog extends JDialog implements ActionListener
 {
-	private JList<User> pendingUsers = new JList<User>();
+	private JTable usersTable;
 	private Vector<User> userList = new Vector<User>();
 	
 	public InvitationDialog(JFrame owner)
@@ -29,20 +29,17 @@ public class InvitationDialog extends JDialog implements ActionListener, ListSel
 		if(fromFile != null)
 			userList = (Vector<User>)fromFile;
 		
-		updatePendingUsers(pendingUsers, userList);
-		pendingUsers.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		pendingUsers.setLayoutOrientation(JList.VERTICAL);
-		pendingUsers.setVisibleRowCount(-1);
-		pendingUsers.addListSelectionListener(this);
-		JScrollPane userScrollPane = new JScrollPane(pendingUsers);
-		userScrollPane.setSize(250, 300);
+		usersTable = new JTable(new UserTableModel(userList));
+		JScrollPane tableScrollPane = new JScrollPane(usersTable);
+		tableScrollPane.setSize(251, 300);
+		usersTable.setFillsViewportHeight(true);
 		
-		JButton okBtn = new JButton("Authorize");
+		JButton okBtn = new JButton("Save");
 		okBtn.addActionListener(this);
 		
 		JPanel userlistPanel = new JPanel();
 		userlistPanel.setLayout(new BoxLayout(userlistPanel, BoxLayout.PAGE_AXIS));
-		userlistPanel.add(userScrollPane);
+		userlistPanel.add(tableScrollPane);
 		userlistPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 		
 		JPanel authorizePanel = new JPanel();
@@ -59,45 +56,12 @@ public class InvitationDialog extends JDialog implements ActionListener, ListSel
 		{
 			String btnText = evt.getActionCommand();
 			
-			if(btnText.equals("Authorize"))
+			if(btnText.equals("Save"))
 			{
-				if(!pendingUsers.isSelectionEmpty())
-				{
-					ArrayList<User> approvedUser = (ArrayList<User>)pendingUsers.getSelectedValuesList();
-					
-					for(User us : userList)
-					{
-						for(User approved : approvedUser)
-						{
-							if(us.equals(approved))
-							{
-								us.setApproved();
-							}
-						}
-					}
-					
-					updatePendingUsers(pendingUsers, userList);
-					FileOperation.saveToFile(userList, "users");
-				}
-			}
-		}
-		catch(Exception e)
-		{
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Error - " + e.getMessage());
-		}
-	}
-	
-	public void valueChanged(ListSelectionEvent evt)
-	{
-		try
-		{
-			JList<?> list = (JList<?>)evt.getSource();
-			
-			// At least one user is selected
-			if(!list.isSelectionEmpty())
-			{
+				FileOperation.saveToFile(userList, "users");
 				
+				setVisible(false);
+				dispose();
 			}
 		}
 		catch(Exception e)
@@ -105,20 +69,5 @@ public class InvitationDialog extends JDialog implements ActionListener, ListSel
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
 			System.out.println("Error - " + e.getMessage());
 		}
-	}
-	
-	public void updatePendingUsers(JList<User> list, Vector<User> userVector)
-	{
-		DefaultListModel<User> listModel = new DefaultListModel<User>();
-		
-		for(User us : userVector)
-		{
-			if(us.isPending())
-			{
-				listModel.addElement(us);
-			}
-		}
-		
-		list.setModel(listModel);
 	}
 }
