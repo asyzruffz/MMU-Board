@@ -219,6 +219,10 @@ public class MainFrame extends JFrame implements ActionListener
 		{
 			InvitationDialog invitePrompt = new InvitationDialog(this);
 		}
+		else if(btnText.equals("About"))
+		{
+			new AboutDialog(this);
+		}
 		else
 		{
 			JOptionPane.showMessageDialog(this, btnText + " button was clicked!");

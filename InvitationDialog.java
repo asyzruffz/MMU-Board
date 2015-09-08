@@ -34,8 +34,8 @@ public class InvitationDialog extends JDialog implements ActionListener
 		tableScrollPane.setSize(251, 300);
 		usersTable.setFillsViewportHeight(true);
 		
-		JButton okBtn = new JButton("Save");
-		okBtn.addActionListener(this);
+		JButton saveBtn = new JButton("Save");
+		saveBtn.addActionListener(this);
 		
 		JPanel userlistPanel = new JPanel();
 		userlistPanel.setLayout(new BoxLayout(userlistPanel, BoxLayout.PAGE_AXIS));
@@ -44,7 +44,7 @@ public class InvitationDialog extends JDialog implements ActionListener
 		
 		JPanel authorizePanel = new JPanel();
 		authorizePanel.setLayout(new FlowLayout());
-		authorizePanel.add(okBtn);
+		authorizePanel.add(saveBtn);
 		
 		invitationContent.add(userlistPanel, BorderLayout.CENTER);
 		invitationContent.add(authorizePanel, BorderLayout.PAGE_END);

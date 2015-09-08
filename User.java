@@ -57,7 +57,10 @@ public class User implements Serializable
 	}
 	
 	public String getNickname(){
-		return nickname;
+		if(nickname.equals(""))
+			return username;
+		else
+			return nickname;
 	}
 	
 	public void setNickname(String name){

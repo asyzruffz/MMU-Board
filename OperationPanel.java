@@ -14,6 +14,8 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 	private JList<Subject> allSubjects;
 	private JList<Discussion> allDiscussions = new JList<Discussion>();
 	private JTextArea messageArea = new JTextArea("Enter your post here...", 5, 0);
+	private ViewPanel view = new ViewPanel(selectedDiscussion);
+	
 	private JTextArea note = new JTextArea(50, 0);
 	
 	public OperationPanel(User user)
@@ -65,7 +67,8 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.PAGE_AXIS));
 		note.setEditable(false);
-		middlePanel.add(new JScrollPane(note));
+		//middlePanel.add(new JScrollPane(note));
+		middlePanel.add(new JScrollPane(view));
 		JPanel messagePanel = new JPanel();
 		messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.LINE_AXIS));
 		messageArea.addFocusListener(this);
@@ -119,6 +122,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 						selectedSubject.addDiscussion(new Discussion(discussionTitle));
 						selectedDiscussion = updateList(allDiscussions, selectedSubject.getAllDiscussions());
 						updateMessageBoard();
+						view.update();
 					}
 				}
 				else
@@ -136,6 +140,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 					{
 						selectedDiscussion.addComment(new Comment(commentText, currentAuthor));
 						updateMessageBoard();
+						view.update();
 						messageArea.setText("Enter your post here...");
 					}
 				}
@@ -189,6 +194,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 				}
 					
 				updateMessageBoard();
+				view.update();
 			}
 		}
 		catch(Exception e)
@@ -249,14 +255,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 			
 			for(Comment msg : selectedDiscussion.getAllComment())
 			{
-				if(!msg.getAuthor().getNickname().equals(""))
-				{
-					note.append(msg.getAuthor().getNickname() + ": " + msg.getText());
-				}
-				else
-				{
-					note.append(msg.getAuthor().getUsername() + ": " + msg.getText());
-				}
+				note.append(msg.getAuthor().getNickname() + ": " + msg.getText());
 			}
 		}
 	}
