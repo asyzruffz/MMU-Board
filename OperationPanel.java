@@ -123,6 +123,8 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 						selectedDiscussion = updateList(allDiscussions, selectedSubject.getAllDiscussions());
 						updateMessageBoard();
 						view.update();
+						revalidate();
+						repaint();
 					}
 				}
 				else
@@ -141,6 +143,8 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 						selectedDiscussion.addComment(new Comment(commentText, currentAuthor));
 						updateMessageBoard();
 						view.update();
+						revalidate();
+						repaint();
 						messageArea.setText("Enter your post here...");
 					}
 				}
@@ -195,6 +199,8 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 					
 				updateMessageBoard();
 				view.update();
+				revalidate();
+				repaint();
 			}
 		}
 		catch(Exception e)

@@ -32,6 +32,7 @@ public class ViewPanel extends JPanel
 	public void update()
 	{
 		//doLayout();
+		revalidate();
 		repaint();
 	}
 }

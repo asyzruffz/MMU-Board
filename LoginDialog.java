@@ -40,6 +40,8 @@ public class LoginDialog extends JDialog implements ActionListener
 		userPanel.add(usernameField);
 		
 		JPanel passPanel = new JPanel(new FlowLayout());
+		passwordField.setActionCommand("Sign in");
+		passwordField.addActionListener(this);
 		passPanel.add(new JLabel("Password: "));
 		passPanel.add(passwordField);
 		
