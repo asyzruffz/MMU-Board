@@ -24,7 +24,7 @@ public class RemarkPanel extends JPanel implements ActionListener
 		
 		contentPanel.setBorder(BorderFactory.createTitledBorder(comment.getAuthor().getNickname()));
 		
-		JPanel buttonsPanel = new JPanel(new FlowLayout());
+		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING, 2, 2));
 		JButton upvoteBtn = new JButton("^");
 		upvoteBtn.addActionListener(this);
 		JButton downvoteBtn = new JButton("v");

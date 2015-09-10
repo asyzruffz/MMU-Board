@@ -9,8 +9,11 @@ public class ViewPanel extends JPanel
 	
 	public ViewPanel(Discussion disc)
 	{
-		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		discussion = disc;
+		int count = 10;
+		if(discussion != null)
+			count = Math.max(discussion.getAllComment().size(), 10);
+		setLayout(new GridLayout(count, 1));
 		
 		initPanel();
 	}
@@ -27,12 +30,5 @@ public class ViewPanel extends JPanel
 				add(new RemarkPanel(msg));
 			}
 		}
-	}
-	
-	public void update()
-	{
-		//doLayout();
-		revalidate();
-		repaint();
 	}
 }

@@ -14,9 +14,8 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 	private JList<Subject> allSubjects;
 	private JList<Discussion> allDiscussions = new JList<Discussion>();
 	private JTextArea messageArea = new JTextArea("Enter your post here...", 5, 0);
-	private ViewPanel view = new ViewPanel(selectedDiscussion);
-	
-	private JTextArea note = new JTextArea(50, 0);
+	private JPanel view = new JPanel(new CardLayout());
+	private boolean flipped = false;
 	
 	public OperationPanel(User user)
 	{
@@ -46,29 +45,49 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		allSubjects.setVisibleRowCount(-1);
 		allSubjects.addListSelectionListener(this);
 		JScrollPane subjScrollPane = new JScrollPane(allSubjects);
-		JButton newSubjBtn = new JButton("Add New Subject");
+		JButton newSubjBtn = new JButton("+");
+		newSubjBtn.setActionCommand("Add New Subject");
 		newSubjBtn.addActionListener(this);
 		newSubjBtn.setEnabled(currentAuthor.requireAccessLevel(User.AccessLevel.LECTURER));
+		JButton delSubjBtn = new JButton("-");
+		delSubjBtn.setActionCommand("Delete Subject");
+		delSubjBtn.addActionListener(this);
+		delSubjBtn.setEnabled(currentAuthor.requireAccessLevel(User.AccessLevel.LECTURER));
+		JPanel editSubjPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING, 2, 2));
+		editSubjPanel.add(delSubjBtn);
+		editSubjPanel.add(newSubjBtn);
 		
 		allDiscussions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		allDiscussions.setLayoutOrientation(JList.VERTICAL);
 		allDiscussions.setVisibleRowCount(-1);
 		allDiscussions.addListSelectionListener(this);
 		JScrollPane discScrollPane = new JScrollPane(allDiscussions);
-		JButton newDiscBtn = new JButton("Add New Discussion");
+		JButton newDiscBtn = new JButton("+");
+		newDiscBtn.setActionCommand("Add New Discussion");
 		newDiscBtn.addActionListener(this);
 		newDiscBtn.setEnabled(currentAuthor.requireAccessLevel(User.AccessLevel.LECTURER));
+		JButton delDiscBtn = new JButton("-");
+		delDiscBtn.setActionCommand("Delete Discussion");
+		delDiscBtn.addActionListener(this);
+		delDiscBtn.setEnabled(currentAuthor.requireAccessLevel(User.AccessLevel.LECTURER));
+		JPanel editDiscPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING, 2, 2));
+		editDiscPanel.add(delDiscBtn);
+		editDiscPanel.add(newDiscBtn);
 		
-		leftPanel.add(subjScrollPane);
-		leftPanel.add(newSubjBtn);
-		leftPanel.add(discScrollPane);
-		leftPanel.add(newDiscBtn);
+		JPanel upperLeftPanel = new JPanel(new BorderLayout());
+		JPanel lowerLeftPanel = new JPanel(new BorderLayout());
+		upperLeftPanel.add(subjScrollPane, BorderLayout.CENTER);
+		upperLeftPanel.add(editSubjPanel, BorderLayout.PAGE_END);
+		lowerLeftPanel.add(discScrollPane, BorderLayout.CENTER);
+		lowerLeftPanel.add(editDiscPanel, BorderLayout.PAGE_END);
+		
+		leftPanel.add(upperLeftPanel);
+		leftPanel.add(lowerLeftPanel);
 		
 		JPanel middlePanel = new JPanel();
-		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.PAGE_AXIS));
-		note.setEditable(false);
-		//middlePanel.add(new JScrollPane(note));
-		middlePanel.add(new JScrollPane(view));
+		middlePanel.setLayout(new BorderLayout());
+		
+		view.add(new ViewPanel(selectedDiscussion), "A");
 		JPanel messagePanel = new JPanel();
 		messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.LINE_AXIS));
 		messageArea.addFocusListener(this);
@@ -77,7 +96,9 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		postBtn.setEnabled(currentAuthor.requireAccessLevel(User.AccessLevel.STUDENT));
 		postBtn.addActionListener(this);
 		messagePanel.add(postBtn);
-		middlePanel.add(messagePanel);
+		
+		middlePanel.add(new JScrollPane(view), BorderLayout.CENTER);
+		middlePanel.add(messagePanel, BorderLayout.PAGE_END);
 		
 		
 		//Create a split pane dividing main post from Subject/Discussion selector.
@@ -88,9 +109,8 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		splitPane.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
 															   BorderFactory.createLoweredBevelBorder()));
 		//Provide minimum sizes for the two components in the split pane
-		Dimension minimumSize = new Dimension(240, 300);
-		leftPanel.setMinimumSize(minimumSize);
-		middlePanel.setMinimumSize(minimumSize);
+		leftPanel.setMinimumSize(new Dimension(240, 300));
+		middlePanel.setMinimumSize(new Dimension(800, 300));
 		
 		this.add(splitPane);
 	}
@@ -111,6 +131,17 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 					selectedSubject = updateList(allSubjects, subjectList);
 				}
 			}
+			else if(btnText.equals("Delete Subject"))
+			{
+				if(selectedSubject != null)
+				{
+					
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(this.getTopLevelAncestor(), "Please select a Subject!", "Error!", JOptionPane.ERROR_MESSAGE);
+				}
+			}
 			else if(btnText.equals("Add New Discussion"))
 			{
 				if(selectedSubject != null)
@@ -122,14 +153,22 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 						selectedSubject.addDiscussion(new Discussion(discussionTitle));
 						selectedDiscussion = updateList(allDiscussions, selectedSubject.getAllDiscussions());
 						updateMessageBoard();
-						view.update();
-						revalidate();
-						repaint();
 					}
 				}
 				else
 				{
 					JOptionPane.showMessageDialog(this.getTopLevelAncestor(), "Please select a Subject!", "Error!", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			else if(btnText.equals("Delete Discussion"))
+			{
+				if(selectedDiscussion != null)
+				{
+					
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(this.getTopLevelAncestor(), "Please select a Discussion of a Subject!", "Error!", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			else if(btnText.equals("Post"))
@@ -142,9 +181,6 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 					{
 						selectedDiscussion.addComment(new Comment(commentText, currentAuthor));
 						updateMessageBoard();
-						view.update();
-						revalidate();
-						repaint();
 						messageArea.setText("Enter your post here...");
 					}
 				}
@@ -198,9 +234,6 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 				}
 					
 				updateMessageBoard();
-				view.update();
-				revalidate();
-				repaint();
 			}
 		}
 		catch(Exception e)
@@ -253,16 +286,9 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 	
 	public void updateMessageBoard()
 	{
-		note.setText("");
-		if(selectedDiscussion != null)
-		{
-			note.append("Subject: " + selectedSubject.getSubjName() + "\n\n");
-			note.append("Title: " + selectedDiscussion.getTitle() + "\n\n\n");
-			
-			for(Comment msg : selectedDiscussion.getAllComment())
-			{
-				note.append(msg.getAuthor().getNickname() + ": " + msg.getText());
-			}
-		}
+		CardLayout cardLayout = (CardLayout)view.getLayout();
+		view.add(new ViewPanel(selectedDiscussion), "A");
+		cardLayout.show(view, "A");
+		view.remove(0);
 	}
 }
