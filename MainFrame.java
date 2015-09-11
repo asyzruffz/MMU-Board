@@ -118,6 +118,19 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		menuItem.setEnabled(currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
 		menu.add(menuItem);
 		
+		//Stat menu  ----------------------------------------------------------------------------------------------------------|
+		menu = new JMenu(" Stat ");
+		menu.setMnemonic(KeyEvent.VK_T);
+		menu.getAccessibleContext().setAccessibleDescription("The menu for users statics");
+		menuBar.add(menu);
+		
+		menuItem = new JMenuItem("View Statistics", KeyEvent.VK_W);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
+		menuItem.getAccessibleContext().setAccessibleDescription("This show statistics of users");
+		menuItem.addActionListener(this);
+		menuItem.setEnabled(currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
+		menu.add(menuItem);
+		
 		//Help menu  ----------------------------------------------------------------------------------------------------------|
 		menu = new JMenu(" Help ");
 		menu.setMnemonic(KeyEvent.VK_H);
@@ -220,7 +233,7 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(this, btnText + " button was clicked!");
+			JOptionPane.showMessageDialog(this, btnText + " has not been implemented!");
 		}
 	}
 	

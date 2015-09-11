@@ -27,12 +27,6 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		if(fromFile != null)
 			subjectList = (Vector<Subject>)fromFile;
 		
-		//subjectList.add(new Subject("Calculus"));
-		//subjectList.add(new Subject("Discreet Structure"));
-		//subjectList.add(new Subject("Programming Fundamentals"));
-		//subjectList.add(new Subject("Prof Development"));
-		//subjectList.add(new Subject("Computational Methods"));
-		
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
 		leftPanel.setBorder(BorderFactory.createEmptyBorder(1,1,0,0));
