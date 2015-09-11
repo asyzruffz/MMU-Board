@@ -20,29 +20,38 @@ public class RemarkPanel extends JPanel implements ActionListener
 	private void initPanel()
 	{
 		JPanel contentPanel = new JPanel(new GridLayout(1, 0));
-		contentPanel.add(new JLabel(comment.getText()));
+		contentPanel.add(new JLabel(Utils.toHtml(comment.getText())));
 		
-		contentPanel.setBorder(BorderFactory.createTitledBorder(comment.getAuthor().getNickname()));
+		contentPanel.setBorder(BorderFactory.createTitledBorder(comment.getAuthor().getNickname()+" ("+comment.getKarma()+")"));
 		
-		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING, 2, 2));
+		//JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING, 2, 2));
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
 		JButton upvoteBtn = new JButton("^");
 		upvoteBtn.addActionListener(this);
+		upvoteBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
 		JButton downvoteBtn = new JButton("v");
 		downvoteBtn.addActionListener(this);
+		downvoteBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
 		JButton deleteBtn = new JButton("delete");
 		deleteBtn.addActionListener(this);
+		deleteBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
 		JButton editBtn = new JButton("edit");
 		editBtn.addActionListener(this);
-		JButton replyBtn = new JButton("reply");
-		replyBtn.addActionListener(this);
+		editBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
+		//JButton replyBtn = new JButton("reply");
+		//replyBtn.addActionListener(this);
+		//replyBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
 		
 		buttonsPanel.add(upvoteBtn);
 		buttonsPanel.add(downvoteBtn);
+		buttonsPanel.add(Box.createHorizontalGlue());
 		buttonsPanel.add(deleteBtn);
 		buttonsPanel.add(editBtn);
-		buttonsPanel.add(replyBtn);
+		//buttonsPanel.add(replyBtn);
 		
 		add(contentPanel, BorderLayout.CENTER);
+		//add(new JLabel(""+comment.getKarma()), BorderLayout.LINE_END);
 		add(buttonsPanel, BorderLayout.PAGE_END);
 	}
 	

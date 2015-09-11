@@ -23,6 +23,7 @@ public class ViewPanel extends JPanel
 	{
 		if(discussion != null)
 		{
+			JPanel titlePanel = new JPanel();
 			//note.append("Subject: " + selectedSubject.getSubjName() + "\n\n");
 			//note.append("Title: " + selectedDiscussion.getTitle() + "\n\n\n");
 			

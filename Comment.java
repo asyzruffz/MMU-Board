@@ -52,4 +52,8 @@ public class Comment implements Serializable
 	public void downvote(){
 		karma--;
 	}
+	
+	public int getKarma(){
+		return karma;
+	}
 }

@@ -10,17 +10,15 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 	private Vector<Subject> subjectList = new Vector<Subject>();
 	private Subject selectedSubject = null;
 	private Discussion selectedDiscussion = null;
-	private User currentAuthor = new User();
 	private JList<Subject> allSubjects;
 	private JList<Discussion> allDiscussions = new JList<Discussion>();
 	private JTextArea messageArea = new JTextArea("Enter your post here...", 5, 0);
 	private JPanel view = new JPanel(new CardLayout());
 	private boolean flipped = false;
 	
-	public OperationPanel(User user)
+	public OperationPanel()
 	{
 		setLayout(new GridLayout(1, 1));
-		currentAuthor = user;
 		initPanel();
 	}
 	
@@ -49,11 +47,11 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		JButton newSubjBtn = new JButton("+");
 		newSubjBtn.setActionCommand("Add New Subject");
 		newSubjBtn.addActionListener(this);
-		newSubjBtn.setEnabled(currentAuthor.requireAccessLevel(User.AccessLevel.LECTURER));
+		newSubjBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
 		JButton delSubjBtn = new JButton("-");
 		delSubjBtn.setActionCommand("Delete Subject");
 		delSubjBtn.addActionListener(this);
-		delSubjBtn.setEnabled(currentAuthor.requireAccessLevel(User.AccessLevel.LECTURER));
+		delSubjBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
 		JPanel editSubjPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING, 2, 2));
 		editSubjPanel.add(delSubjBtn);
 		editSubjPanel.add(newSubjBtn);
@@ -66,11 +64,11 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		JButton newDiscBtn = new JButton("+");
 		newDiscBtn.setActionCommand("Add New Discussion");
 		newDiscBtn.addActionListener(this);
-		newDiscBtn.setEnabled(currentAuthor.requireAccessLevel(User.AccessLevel.LECTURER));
+		newDiscBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
 		JButton delDiscBtn = new JButton("-");
 		delDiscBtn.setActionCommand("Delete Discussion");
 		delDiscBtn.addActionListener(this);
-		delDiscBtn.setEnabled(currentAuthor.requireAccessLevel(User.AccessLevel.LECTURER));
+		delDiscBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
 		JPanel editDiscPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING, 2, 2));
 		editDiscPanel.add(delDiscBtn);
 		editDiscPanel.add(newDiscBtn);
@@ -94,7 +92,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		messageArea.addFocusListener(this);
 		messagePanel.add(new JScrollPane(messageArea));
 		JButton postBtn = new JButton("Post");
-		postBtn.setEnabled(currentAuthor.requireAccessLevel(User.AccessLevel.STUDENT));
+		postBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
 		postBtn.addActionListener(this);
 		messagePanel.add(postBtn);
 		
@@ -180,7 +178,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 					
 					if((commentText != null) && (commentText.length() > 0) && (!commentText.equals("Enter your post here...\n")))
 					{
-						selectedDiscussion.addComment(new Comment(Utils.toHtml(commentText), currentAuthor));
+						selectedDiscussion.addComment(new Comment(commentText, MainFrame.currentUser));
 						updateMessageBoard();
 						messageArea.setText("Enter your post here...");
 					}

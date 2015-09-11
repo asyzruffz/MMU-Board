@@ -6,9 +6,9 @@ import javax.swing.border.*;
 
 public class MainFrame extends JFrame implements ActionListener
 {
-	JButton bttn;
-	JFileChooser fch = new JFileChooser();
-	User currentUser = new User();
+	private JButton bttn;
+	private JFileChooser fch = new JFileChooser();
+	public static User currentUser = new User();
 	
 	public MainFrame(String title)
 	{
@@ -21,14 +21,6 @@ public class MainFrame extends JFrame implements ActionListener
 		
 		LoginDialog loginPrompt = new LoginDialog(this);
 		currentUser = loginPrompt.acquireUser();
-		System.out.println(currentUser.getUsername() + " is signed in!");
-		
-		System.out.println("List of users:\n{");
-		for(User us : loginPrompt.getUserList())
-		{
-			System.out.println("\t" + us);
-		}
-		System.out.println("}");
 		
 		setMenus();
 		setPanels();
@@ -155,7 +147,7 @@ public class MainFrame extends JFrame implements ActionListener
 		toolBar.add(bttn);
 		content.add(toolBar, BorderLayout.PAGE_START);
 		
-		content.add(new OperationPanel(currentUser), BorderLayout.CENTER);
+		content.add(new OperationPanel(), BorderLayout.CENTER);
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));
