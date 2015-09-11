@@ -10,10 +10,11 @@ public class ViewPanel extends JPanel
 	public ViewPanel(Discussion disc)
 	{
 		discussion = disc;
-		int count = 10;
-		if(discussion != null)
-			count = Math.max(discussion.getAllComment().size(), 10);
-		setLayout(new GridLayout(count, 1));
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		//int count = 10;
+		//if(discussion != null)
+		//	count = Math.max(discussion.getAllComment().size(), 10);
+		//setLayout(new GridLayout(count, 1));
 		
 		initPanel();
 	}
@@ -30,5 +31,9 @@ public class ViewPanel extends JPanel
 				add(new RemarkPanel(msg));
 			}
 		}
+		
+		Box.Filler glue = (Box.Filler)Box.createVerticalGlue();
+		glue.changeShape(glue.getMinimumSize(), new Dimension(0, Short.MAX_VALUE/4), glue.getMaximumSize());
+		add(glue);
 	}
 }

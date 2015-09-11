@@ -38,6 +38,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
+		leftPanel.setBorder(BorderFactory.createEmptyBorder(1,1,0,0));
 		
 		allSubjects = new JList<Subject>(subjectList);
 		allSubjects.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -179,7 +180,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 					
 					if((commentText != null) && (commentText.length() > 0) && (!commentText.equals("Enter your post here...\n")))
 					{
-						selectedDiscussion.addComment(new Comment(commentText, currentAuthor));
+						selectedDiscussion.addComment(new Comment(Utils.toHtml(commentText), currentAuthor));
 						updateMessageBoard();
 						messageArea.setText("Enter your post here...");
 					}

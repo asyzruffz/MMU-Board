@@ -2,8 +2,6 @@ import java.io.*;
 
 public class FileOperation
 {
-	public FileOperation() {}
-	
 	public static void saveToFile(Object obj, String path)
 	{
 		try
