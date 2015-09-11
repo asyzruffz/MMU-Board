@@ -4,16 +4,18 @@ import javax.swing.*;
 import javax.swing.BorderFactory; 
 import javax.swing.border.*;
 
-public class MainFrame extends JFrame implements ActionListener
+public class MainFrame extends JFrame implements ActionListener, ComponentListener
 {
 	private JButton bttn;
 	private JFileChooser fch = new JFileChooser();
+	private OperationPanel opr;
 	public static User currentUser = new User();
 	
 	public MainFrame(String title)
 	{
 		super(title);
 		setDefaultCloseOperation(MainFrame.EXIT_ON_CLOSE);
+		addComponentListener(this);
 		setSize(800, 600);
 		setIconImage(new ImageIcon("mmuico.png", "").getImage());
 		WindowUtilities.setNativeLookAndFeel();
@@ -147,7 +149,8 @@ public class MainFrame extends JFrame implements ActionListener
 		toolBar.add(bttn);
 		content.add(toolBar, BorderLayout.PAGE_START);
 		
-		content.add(new OperationPanel(), BorderLayout.CENTER);
+		opr = new OperationPanel();
+		content.add(opr, BorderLayout.CENTER);
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));
@@ -220,4 +223,16 @@ public class MainFrame extends JFrame implements ActionListener
 			JOptionPane.showMessageDialog(this, btnText + " button was clicked!");
 		}
 	}
+	
+	public void componentResized(ComponentEvent evt)
+	{
+		if(opr != null)
+		{
+			opr.updateMessageBoard();
+		}
+	}
+	
+	public void componentHidden(ComponentEvent evt) {}
+	public void componentMoved(ComponentEvent evt) {}
+	public void componentShown(ComponentEvent evt) {}
 }

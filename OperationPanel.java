@@ -264,7 +264,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		}
 	}
 	
-	public <T> T updateList(JList<T> list, Vector<T> newVector)
+	private <T> T updateList(JList<T> list, Vector<T> newVector)
 	{
 		// Recreate a new list model & add the updated object list
 		DefaultListModel<T> listModel = new DefaultListModel<T>();

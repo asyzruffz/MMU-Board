@@ -87,6 +87,7 @@ public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 				note.setOpaque(true);
 				note.setEditable(true);
 				editBtn.setText("done");
+				return;
 			}
 			else if(btnText.equals("done"))
 			{
