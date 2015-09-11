@@ -20,11 +20,16 @@ public class RemarkPanel extends JPanel implements ActionListener
 	private void initPanel()
 	{
 		JPanel contentPanel = new JPanel(new GridLayout(1, 0));
-		contentPanel.add(new JLabel(Utils.toHtml(comment.getText())));
-		
 		contentPanel.setBorder(BorderFactory.createTitledBorder(comment.getAuthor().getNickname()+" ("+comment.getKarma()+")"));
 		
-		//JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING, 2, 2));
+		JTextArea note = new JTextArea(comment.getText());
+		note.setFont(UIManager.getFont("Label.font"));
+		note.setOpaque(false);
+		note.setEditable(false);
+		note.setLineWrap(true);
+		note.setWrapStyleWord(true);
+		contentPanel.add(note);
+		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
 		JButton upvoteBtn = new JButton("^");

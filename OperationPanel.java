@@ -14,7 +14,6 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 	private JList<Discussion> allDiscussions = new JList<Discussion>();
 	private JTextArea messageArea = new JTextArea("Enter your post here...", 5, 0);
 	private JPanel view = new JPanel(new CardLayout());
-	private boolean flipped = false;
 	
 	public OperationPanel()
 	{

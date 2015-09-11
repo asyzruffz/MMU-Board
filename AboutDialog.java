@@ -28,7 +28,7 @@ public class AboutDialog extends JDialog implements ActionListener
 		bottomPanel.setLayout(new FlowLayout());
 		bottomPanel.add(okBtn);
 		
-		aboutContent.add(new RemarkPanel(new Comment("Testing...")), BorderLayout.CENTER);
+		//aboutContent.add(new RemarkPanel(new Comment("Testing...")), BorderLayout.CENTER);
 		aboutContent.add(bottomPanel, BorderLayout.PAGE_END);
 	}
 	

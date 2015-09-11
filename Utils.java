@@ -17,41 +17,41 @@ import java.io.StringReader;
 
 public class Utils {
 	
-	public static String toHtml( String string )
+	public static String toHtml(String string)
 	{
-		if( string == null || string.equals("") )
+		if(string == null || string.equals(""))
 			return "<html><body></body></html>";
 
-		BufferedReader st = new BufferedReader( new StringReader( string ) );
-		StringBuffer buf = new StringBuffer( "<html><body>" );
+		BufferedReader st = new BufferedReader(new StringReader(string));
+		StringBuffer buf = new StringBuffer("<html><body>");
 
 		try
 		{
 			String str = st.readLine();
 
-			while( str != null )
+			while(str != null)
 			{
-				if( str.equalsIgnoreCase( "<br/>" ) )
+				if(str.equalsIgnoreCase("<br/>"))
 				{
 					str = "<br>";
 				}
 
-				buf.append( str );
+				buf.append(str);
 
-				if( !str.equalsIgnoreCase( "<br>" ) )
+				if(!str.equalsIgnoreCase("<br>"))
 				{
-					buf.append( "<br>" );
+					buf.append("<br>");
 				}
 
 				str = st.readLine();
 			}
 		}
-		catch( IOException e )
+		catch(IOException e)
 		{
 			e.printStackTrace();
 		}
 
-		buf.append( "</body></html>" );
+		buf.append("</body></html>");
 		string = buf.toString();
 		return string;
 	}

@@ -11,10 +11,6 @@ public class ViewPanel extends JPanel
 	{
 		discussion = disc;
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		//int count = 10;
-		//if(discussion != null)
-		//	count = Math.max(discussion.getAllComment().size(), 10);
-		//setLayout(new GridLayout(count, 1));
 		
 		initPanel();
 	}
@@ -23,9 +19,18 @@ public class ViewPanel extends JPanel
 	{
 		if(discussion != null)
 		{
-			JPanel titlePanel = new JPanel();
-			//note.append("Subject: " + selectedSubject.getSubjName() + "\n\n");
-			//note.append("Title: " + selectedDiscussion.getTitle() + "\n\n\n");
+			JTextArea title = new JTextArea("Discussion: "+discussion.getTitle());
+			title.setFont(new Font("Default", Font.PLAIN, 16));
+			title.setOpaque(false);
+			title.setEditable(false);
+			title.setLineWrap(true);
+			title.setWrapStyleWord(true);
+			
+			JPanel titlePanel = new JPanel(new GridLayout(1, 0));
+			titlePanel.add(title);
+			titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+			titlePanel.setBorder(BorderFactory.createEmptyBorder(5,2,5,2));
+			add(titlePanel);
 			
 			for(Comment msg : discussion.getAllComment())
 			{
