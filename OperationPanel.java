@@ -90,7 +90,8 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		messagePanel.add(postBtn);
 		
 		middlePanel.add(new JScrollPane(view), BorderLayout.CENTER);
-		middlePanel.add(messagePanel, BorderLayout.PAGE_END);
+		if(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT))
+			middlePanel.add(messagePanel, BorderLayout.PAGE_END);
 		
 		
 		//Create a split pane dividing main post from Subject/Discussion selector.
