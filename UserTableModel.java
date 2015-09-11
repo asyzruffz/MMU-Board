@@ -4,7 +4,8 @@ import java.util.*;
 public class UserTableModel extends AbstractTableModel
 {
 	private Vector<User> userList = new Vector<User>();
-	private String[] columnNames = {"Username",
+	private String[] columnNames = {"No",
+									"Username",
 									"Nickname",
 									"Type",
 									"Approved"};
@@ -29,12 +30,14 @@ public class UserTableModel extends AbstractTableModel
 		switch(col)
 		{
 			case 0:
-				return userList.elementAt(row).getUsername();
+				return row + 1;
 			case 1:
-				return userList.elementAt(row).getNickname();
+				return userList.elementAt(row).getUsername();
 			case 2:
-				return userList.elementAt(row).getAccessLevel().toString();
+				return userList.elementAt(row).getNickname();
 			case 3:
+				return userList.elementAt(row).getAccessLevel().toString();
+			case 4:
 				return !userList.elementAt(row).isPending();
 			default:
 				return null;
@@ -54,7 +57,7 @@ public class UserTableModel extends AbstractTableModel
 	public boolean isCellEditable(int row, int col) {
 		//Note that the data/cell address is constant,
 		//no matter where the cell appears onscreen.
-		if (col < 3) {
+		if (col < 4) {
 			return false;
 		} else {
 			return true;
@@ -65,13 +68,19 @@ public class UserTableModel extends AbstractTableModel
 		switch(col)
 		{
 			case 0:
-				userList.elementAt(row).setUsername((String)value);
+				break;
 			case 1:
-				userList.elementAt(row).setNickname((String)value);
+				userList.elementAt(row).setUsername((String)value);
+				break;
 			case 2:
-				userList.elementAt(row).setAccessLevel((User.AccessLevel)value);
+				userList.elementAt(row).setNickname((String)value);
+				break;
 			case 3:
+				userList.elementAt(row).setAccessLevel((User.AccessLevel)value);
+				break;
+			case 4:
 				userList.elementAt(row).setApproved((boolean)value);
+				break;
 		}
 		
 		fireTableCellUpdated(row, col);

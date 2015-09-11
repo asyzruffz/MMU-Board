@@ -87,6 +87,11 @@ public class LoginDialog extends JDialog implements ActionListener
 				dispose();
 				return;
 			}
+			else if(usernameField.getText().equals(admin.getUsername()))
+			{
+				JOptionPane.showMessageDialog(this, "Wrong password!");
+				return;
+			}
 			
 			for(User us : userList)
 			{

@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.BorderFactory; 
+import javax.swing.border.*;
 
 public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 {
@@ -23,7 +25,11 @@ public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 	private void initPanel()
 	{
 		JPanel contentPanel = new JPanel(new GridLayout(1, 0));
-		contentPanel.setBorder(BorderFactory.createTitledBorder(comment.getAuthor().getNickname()+" ("+comment.getKarma()+")"));
+		
+		TitledBorder titleBorder = BorderFactory.createTitledBorder(comment.getAuthor().getNickname()+" ("+comment.getKarma()+")");
+		TitledBorder dateBorder = BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), comment.getTimeEdited(),
+																	TitledBorder.TRAILING, TitledBorder.ABOVE_BOTTOM);
+		contentPanel.setBorder(BorderFactory.createCompoundBorder(titleBorder, dateBorder));
 		
 		note = new JTextArea(comment.getText());
 		note.setFont(UIManager.getFont("Label.font"));

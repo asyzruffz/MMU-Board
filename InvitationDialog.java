@@ -12,7 +12,7 @@ public class InvitationDialog extends JDialog implements ActionListener
 	public InvitationDialog(JFrame owner)
 	{
 		super(owner, true);
-		setSize(300, 400);
+		setSize(400, 400);
 		setResizable(false);
 		setLocationRelativeTo(this);
 		
@@ -31,7 +31,12 @@ public class InvitationDialog extends JDialog implements ActionListener
 		
 		usersTable = new JTable(new UserTableModel(userList));
 		JScrollPane tableScrollPane = new JScrollPane(usersTable);
-		tableScrollPane.setSize(251, 300);
+		usersTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+		usersTable.getColumnModel().getColumn(1).setPreferredWidth(120);
+		usersTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+		usersTable.getColumnModel().getColumn(3).setPreferredWidth(30);
+		usersTable.getColumnModel().getColumn(4).setPreferredWidth(30);
+		
 		usersTable.setFillsViewportHeight(true);
 		
 		JButton saveBtn = new JButton("Save");

@@ -1,22 +1,29 @@
 import java.io.*;
 import java.util.*;
+import java.text.*;
 
 public class Comment implements Serializable, Comparator<Comment>, Comparable<Comment>
 {
 	private String text = "";
 	private User author = new User();
-	private int karma;
 	private Discussion parent;
+	private Date date;
+	private String latestEdit = "";
+	private int karma;
 	
 	public Comment() {}
 	
 	public Comment(String text){
 		this.text = text;
+		
+		setTimeEdited();
 	}
 	
 	public Comment(String text, User author){
 		this.text = text;
 		this.author = author;
+		
+		setTimeEdited();
 	}
 	
 	public String getText(){
@@ -53,6 +60,16 @@ public class Comment implements Serializable, Comparator<Comment>, Comparable<Co
 	
 	public int getKarma(){
 		return karma;
+	}
+	
+	public void setTimeEdited(){
+		date = new Date();
+		SimpleDateFormat ft = new SimpleDateFormat("E dd.MM.yyyy 'at' hh:mm a");
+		latestEdit = ft.format(date);
+	}
+	
+	public String getTimeEdited(){
+		return latestEdit;
 	}
 	
 	public void deleteThis(){
