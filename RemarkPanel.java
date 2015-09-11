@@ -48,12 +48,15 @@ public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 		JButton downvoteBtn = new JButton("v");
 		downvoteBtn.addActionListener(this);
 		downvoteBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
+		
 		JButton deleteBtn = new JButton("delete");
 		deleteBtn.addActionListener(this);
-		deleteBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
+		deleteBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER) ||
+							MainFrame.currentUser.getUsername().equals(comment.getAuthor().getUsername()));
 		editBtn = new JButton("edit");
 		editBtn.addActionListener(this);
-		editBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
+		editBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER) ||
+							MainFrame.currentUser.getUsername().equals(comment.getAuthor().getUsername()));
 		//JButton replyBtn = new JButton("reply");
 		//replyBtn.addActionListener(this);
 		//replyBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
@@ -98,6 +101,7 @@ public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 			else if(btnText.equals("done"))
 			{
 				comment.setText(note.getText());
+				comment.setTimeEdited();
 				note.setOpaque(false);
 				note.setEditable(false);
 				editBtn.setText("edit");
@@ -123,6 +127,7 @@ public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 	public void focusLost(FocusEvent evt)
 	{
 		comment.setText(note.getText());
+		comment.setTimeEdited();
 		note.setOpaque(false);
 		note.setEditable(false);
 		editBtn.setText("edit");

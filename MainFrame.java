@@ -55,13 +55,13 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This only opens the File Chooser");
 		menuItem.addActionListener(this);
-		menu.add(menuItem);
+		//menu.add(menuItem);
 		
 		menuItem = new JMenuItem("Save As...", KeyEvent.VK_S);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("This only opens the File Chooser");
 		menuItem.addActionListener(this);
-		menu.add(menuItem);
+		//menu.add(menuItem);
 		
 		menu.addSeparator();
 		
@@ -159,8 +159,8 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		bottomPanel.add(Box.createHorizontalStrut(5));
 		bottomPanel.add(new JSeparator(JSeparator.VERTICAL));
 		bottomPanel.add(Box.createHorizontalStrut(5));
-		bottomPanel.add(new JLabel("Welcome! You are signed in as "));
-		bottomPanel.add(new JLabel(currentUser.getUsername()));
+		bottomPanel.add(new JLabel("Welcome! "));
+		bottomPanel.add(new JLabel(currentUser.getNickname()));
 		bottomPanel.add(Box.createHorizontalStrut(5));
 		bottomPanel.add(new JSeparator(JSeparator.VERTICAL));
 		bottomPanel.add(Box.createHorizontalStrut(5));
