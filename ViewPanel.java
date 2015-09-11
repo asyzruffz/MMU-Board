@@ -32,6 +32,7 @@ public class ViewPanel extends JPanel
 			titlePanel.setBorder(BorderFactory.createEmptyBorder(5,2,5,2));
 			add(titlePanel);
 			
+			discussion.sortComments();
 			for(Comment msg : discussion.getAllComment())
 			{
 				add(new RemarkPanel(msg));

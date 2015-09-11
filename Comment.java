@@ -1,6 +1,7 @@
 import java.io.*;
+import java.util.*;
 
-public class Comment implements Serializable 
+public class Comment implements Serializable, Comparator<Comment>, Comparable<Comment>
 {
 	private static int count;
 	private int commentID;
@@ -55,5 +56,13 @@ public class Comment implements Serializable
 	
 	public int getKarma(){
 		return karma;
+	}
+	
+	public int compareTo(Comment c){
+		return (new Integer(karma)).compareTo(c.karma);
+	}
+
+	public int compare(Comment c1, Comment c2){
+		return c1.karma - c2.karma;
 	}
 }

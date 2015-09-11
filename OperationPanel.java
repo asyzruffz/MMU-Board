@@ -173,9 +173,9 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 			{
 				if(selectedDiscussion != null)
 				{
-					String commentText = messageArea.getText() + "\n";
+					String commentText = messageArea.getText();
 					
-					if((commentText != null) && (commentText.length() > 0) && (!commentText.equals("Enter your post here...\n")))
+					if((commentText != null) && (commentText.length() > 0) && (!commentText.equals("Enter your post here...")))
 					{
 						selectedDiscussion.addComment(new Comment(commentText, MainFrame.currentUser));
 						updateMessageBoard();

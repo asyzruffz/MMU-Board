@@ -66,13 +66,13 @@ public class RemarkPanel extends JPanel implements ActionListener
 		{
 			String btnText = evt.getActionCommand();
 			
-			if(btnText.equals("..."))
+			if(btnText.equals("^"))
 			{
-				
+				comment.upvote();
 			}
-			else if(btnText.equals(",,,"))
+			else if(btnText.equals("v"))
 			{
-				
+				comment.downvote();
 			}
 			else if(btnText.equals("!!!"))
 			{

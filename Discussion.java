@@ -34,14 +34,21 @@ public class Discussion implements Serializable
 	
 	public void addComment(Comment comment){
 		commentList.add(comment);
+		sortComments();
 	}
 	
 	public void removeComment(int id){
 		commentList.remove(id);
+		sortComments();
 	}
 	
 	public Vector<Comment> getAllComment(){
 		return commentList;
+	}
+	
+	public void sortComments(){
+		Collections.sort(commentList);
+		Collections.reverse(commentList);
 	}
 	
 	public String toString() {
