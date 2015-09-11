@@ -3,9 +3,12 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-public class RemarkPanel extends JPanel implements ActionListener
+public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 {
 	private Comment comment = new Comment();
+	private JTextArea note;
+	private JButton editBtn;
+	private ViewPanel parent;
 	
 	public RemarkPanel() {}
 	
@@ -22,8 +25,9 @@ public class RemarkPanel extends JPanel implements ActionListener
 		JPanel contentPanel = new JPanel(new GridLayout(1, 0));
 		contentPanel.setBorder(BorderFactory.createTitledBorder(comment.getAuthor().getNickname()+" ("+comment.getKarma()+")"));
 		
-		JTextArea note = new JTextArea(comment.getText());
+		note = new JTextArea(comment.getText());
 		note.setFont(UIManager.getFont("Label.font"));
+		note.addFocusListener(this);
 		note.setOpaque(false);
 		note.setEditable(false);
 		note.setLineWrap(true);
@@ -41,7 +45,7 @@ public class RemarkPanel extends JPanel implements ActionListener
 		JButton deleteBtn = new JButton("delete");
 		deleteBtn.addActionListener(this);
 		deleteBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
-		JButton editBtn = new JButton("edit");
+		editBtn = new JButton("edit");
 		editBtn.addActionListener(this);
 		editBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
 		//JButton replyBtn = new JButton("reply");
@@ -74,19 +78,50 @@ public class RemarkPanel extends JPanel implements ActionListener
 			{
 				comment.downvote();
 			}
-			else if(btnText.equals("!!!"))
+			else if(btnText.equals("delete"))
 			{
-				
+				comment.deleteThis();
+			}
+			else if(btnText.equals("edit"))
+			{
+				note.setOpaque(true);
+				note.setEditable(true);
+				editBtn.setText("done");
+			}
+			else if(btnText.equals("done"))
+			{
+				comment.setText(note.getText());
+				note.setOpaque(false);
+				note.setEditable(false);
+				editBtn.setText("edit");
 			}
 			else
 			{
 				JOptionPane.showMessageDialog(this.getTopLevelAncestor(), "Y U No Implement?");
 			}
+			
+			parent = (ViewPanel)getParent();
+			if(parent != null)
+				parent.refresh();
 		}
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
 			System.out.println("Error - " + e.getMessage());
 		}
+	}
+	
+	public void focusGained(FocusEvent evt) {}
+	
+	public void focusLost(FocusEvent evt)
+	{
+		comment.setText(note.getText());
+		note.setOpaque(false);
+		note.setEditable(false);
+		editBtn.setText("edit");
+		
+		parent = (ViewPanel)getParent();
+		if(parent != null)
+			parent.refresh();
 	}
 }

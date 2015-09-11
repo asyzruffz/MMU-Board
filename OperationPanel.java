@@ -133,7 +133,8 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 			{
 				if(selectedSubject != null)
 				{
-					
+					subjectList.remove(allSubjects.getSelectedIndex());
+					selectedSubject = updateList(allSubjects, subjectList);
 				}
 				else
 				{
@@ -162,7 +163,9 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 			{
 				if(selectedDiscussion != null)
 				{
-					
+					selectedSubject.removeDiscussion(allDiscussions.getSelectedIndex());
+					selectedDiscussion = updateList(allDiscussions, selectedSubject.getAllDiscussions());
+					updateMessageBoard();
 				}
 				else
 				{
@@ -288,5 +291,6 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		view.add(new ViewPanel(selectedDiscussion), "A");
 		cardLayout.show(view, "A");
 		view.remove(0);
+		FileOperation.saveToFile(subjectList, "content");
 	}
 }

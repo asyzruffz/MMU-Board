@@ -3,21 +3,13 @@ import java.util.*;
 
 public class Discussion implements Serializable 
 {
-	private static int count;
-	private int discID;
 	private String discTitle = "";
 	private Vector<Comment> commentList = new Vector<Comment>();
 	
 	public Discussion() {}
 	
 	public Discussion(String title){
-		count++;
-		discID = count;
 		discTitle = title;
-	}
-	
-	public int getID(){
-		return discID;
 	}
 	
 	public String getTitle(){
@@ -33,12 +25,13 @@ public class Discussion implements Serializable
 	}
 	
 	public void addComment(Comment comment){
+		comment.setParent(this);
 		commentList.add(comment);
 		sortComments();
 	}
 	
-	public void removeComment(int id){
-		commentList.remove(id);
+	public void removeComment(Comment comment){
+		commentList.remove(comment);
 		sortComments();
 	}
 	

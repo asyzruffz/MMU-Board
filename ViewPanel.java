@@ -43,4 +43,13 @@ public class ViewPanel extends JPanel
 		glue.changeShape(glue.getMinimumSize(), new Dimension(0, Short.MAX_VALUE/4), glue.getMaximumSize());
 		add(glue);
 	}
+	
+	public void refresh()
+	{
+		JPanel parent = (JPanel)getParent();
+		CardLayout cardLayout = (CardLayout)parent.getLayout();
+		parent.add(new ViewPanel(discussion), "A");
+		cardLayout.show(parent, "A");
+		parent.remove(0);
+	}
 }

@@ -3,27 +3,20 @@ import java.util.*;
 
 public class Comment implements Serializable, Comparator<Comment>, Comparable<Comment>
 {
-	private static int count;
-	private int commentID;
 	private String text = "";
 	private User author = new User();
 	private int karma;
+	private Discussion parent;
 	
 	public Comment() {}
 	
 	public Comment(String text){
-		count++;
-		commentID = count;
 		this.text = text;
 	}
 	
 	public Comment(String text, User author){
 		this.text = text;
 		this.author = author;
-	}
-	
-	public int getID(){
-		return commentID;
 	}
 	
 	public String getText(){
@@ -42,6 +35,10 @@ public class Comment implements Serializable, Comparator<Comment>, Comparable<Co
 		this.author = author;
 	}
 	
+	public void setParent(Discussion parent){
+		this.parent = parent;
+	}
+	
 	public String toString(){
         return text;
     }
@@ -56,6 +53,10 @@ public class Comment implements Serializable, Comparator<Comment>, Comparable<Co
 	
 	public int getKarma(){
 		return karma;
+	}
+	
+	public void deleteThis(){
+		parent.removeComment(this);
 	}
 	
 	public int compareTo(Comment c){
