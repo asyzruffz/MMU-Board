@@ -1,12 +1,10 @@
 import java.io.*;
 import java.util.*;
 import java.text.*;
-import javax.swing.ImageIcon;
 
 public class Comment implements Serializable, Comparator<Comment>, Comparable<Comment>
 {
 	private String text = "";
-	private ImageIcon icon;
 	private User author = new User();
 	private Discussion parent;
 	private Date dateCreated;
@@ -30,24 +28,12 @@ public class Comment implements Serializable, Comparator<Comment>, Comparable<Co
 		setTimeEdited(false);
 	}
 	
-	public Comment(String text, User author, ImageIcon icon){
-		this.text = text;
-		this.icon = icon;
-		this.author = author;
-		
-		setTimeEdited(false);
-	}
-	
 	public String getText(){
 		return text;
 	}
 	
 	public void setText(String text){
 		this.text = text;
-	}
-	
-	public ImageIcon getIcon(){
-		return icon;
 	}
 	
 	public User getAuthor(){

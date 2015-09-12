@@ -1,3 +1,4 @@
+import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -24,62 +25,93 @@ public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 	
 	private void initPanel()
 	{
-		//JPanel contentPanel = new JPanel(new FlowLayout());
-		//JPanel contentPanel = new JPanel(new GridLayout(1, 0));
-		JPanel contentPanel = new JPanel();
-		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.PAGE_AXIS));
-		
-		TitledBorder titleBorder = BorderFactory.createTitledBorder(comment.getAuthor().getNickname()+" ("+comment.getKarma()+")");
-		TitledBorder dateBorder = BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), comment.getTimeEdited(),
-																	TitledBorder.TRAILING, TitledBorder.ABOVE_BOTTOM);
-		contentPanel.setBorder(BorderFactory.createCompoundBorder(titleBorder, dateBorder));
-		
-		note = new JTextArea(comment.getText());
-		note.setFont(UIManager.getFont("Label.font"));
-		note.addFocusListener(this);
-		note.setOpaque(false);
-		note.setEditable(false);
-		note.setLineWrap(true);
-		note.setWrapStyleWord(true);
-		contentPanel.add(note);
-		if(comment.getIcon() != null)
+		try
 		{
-			JScrollPane imgScrollPane = new JScrollPane(new JLabel(comment.getIcon()));
-			imgScrollPane.setPreferredSize(new Dimension(Math.min(comment.getIcon().getIconWidth(), note.getPreferredSize().width),
-														comment.getIcon().getIconHeight()+4));
-			contentPanel.add(imgScrollPane);
+			//JPanel contentPanel = new JPanel(new FlowLayout());
+			//JPanel contentPanel = new JPanel(new GridLayout(1, 0));
+			JPanel contentPanel = new JPanel();
+			contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.PAGE_AXIS));
+			
+			TitledBorder titleBorder = BorderFactory.createTitledBorder(comment.getAuthor().getNickname()+" ("+comment.getKarma()+")");
+			TitledBorder dateBorder = BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), comment.getTimeEdited(),
+																		TitledBorder.TRAILING, TitledBorder.ABOVE_BOTTOM);
+			contentPanel.setBorder(BorderFactory.createCompoundBorder(titleBorder, dateBorder));
+			
+			note = new JTextArea(comment.getText());
+			note.setFont(UIManager.getFont("Label.font"));
+			note.addFocusListener(this);
+			note.setOpaque(false);
+			note.setEditable(false);
+			note.setLineWrap(true);
+			note.setWrapStyleWord(true);
+			if(!comment.getText().equals(""))
+				contentPanel.add(note);
+			
+			if(comment instanceof ImageComment)
+			{
+				ImageComment imgComment = (ImageComment)comment;
+				ImageIcon im = new ImageIcon(imgComment.getImagePath());
+				if(im != null)
+				{
+					JScrollPane imgScrollPane = new JScrollPane(new JLabel(im));
+					imgScrollPane.setPreferredSize(new Dimension(Math.min(im.getIconWidth(), note.getPreferredSize().width), im.getIconHeight()+4));
+					contentPanel.add(imgScrollPane);
+				}
+			}
+			else if(comment instanceof FileComment)
+			{
+				FileComment fileComment = (FileComment)comment;
+				JPanel filePanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+				JLabel fileName = new JLabel(fileComment.getFileName());
+				fileName.setFont(new Font("Default", Font.BOLD, 12));
+				JButton dloadFileBtn = new JButton("Download");
+				dloadFileBtn.addActionListener(this);
+				filePanel.add(fileName);
+				filePanel.add(dloadFileBtn);
+				contentPanel.add(filePanel);
+			}
+			
+			JPanel buttonsPanel = new JPanel();
+			buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
+			JButton upvoteBtn = new JButton("^");
+			upvoteBtn.addActionListener(this);
+			upvoteBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
+			JButton downvoteBtn = new JButton("v");
+			downvoteBtn.addActionListener(this);
+			downvoteBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
+			
+			JButton deleteBtn = new JButton("delete");
+			deleteBtn.addActionListener(this);
+			deleteBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER) ||
+								MainFrame.currentUser.getUsername().equals(comment.getAuthor().getUsername()));
+			editBtn = new JButton("edit");
+			editBtn.addActionListener(this);
+			editBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER) ||
+								MainFrame.currentUser.getUsername().equals(comment.getAuthor().getUsername()));
+			//JButton replyBtn = new JButton("reply");
+			//replyBtn.addActionListener(this);
+			//replyBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
+			
+			buttonsPanel.add(upvoteBtn);
+			buttonsPanel.add(downvoteBtn);
+			buttonsPanel.add(Box.createHorizontalGlue());
+			buttonsPanel.add(deleteBtn);
+			buttonsPanel.add(editBtn);
+			//buttonsPanel.add(replyBtn);
+			
+			add(contentPanel, BorderLayout.CENTER);
+			add(buttonsPanel, BorderLayout.PAGE_END);
 		}
-		
-		JPanel buttonsPanel = new JPanel();
-		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
-		JButton upvoteBtn = new JButton("^");
-		upvoteBtn.addActionListener(this);
-		upvoteBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
-		JButton downvoteBtn = new JButton("v");
-		downvoteBtn.addActionListener(this);
-		downvoteBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
-		
-		JButton deleteBtn = new JButton("delete");
-		deleteBtn.addActionListener(this);
-		deleteBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER) ||
-							MainFrame.currentUser.getUsername().equals(comment.getAuthor().getUsername()));
-		editBtn = new JButton("edit");
-		editBtn.addActionListener(this);
-		editBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER) ||
-							MainFrame.currentUser.getUsername().equals(comment.getAuthor().getUsername()));
-		//JButton replyBtn = new JButton("reply");
-		//replyBtn.addActionListener(this);
-		//replyBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
-		
-		buttonsPanel.add(upvoteBtn);
-		buttonsPanel.add(downvoteBtn);
-		buttonsPanel.add(Box.createHorizontalGlue());
-		buttonsPanel.add(deleteBtn);
-		buttonsPanel.add(editBtn);
-		//buttonsPanel.add(replyBtn);
-		
-		add(contentPanel, BorderLayout.CENTER);
-		add(buttonsPanel, BorderLayout.PAGE_END);
+		catch(NullPointerException e)
+		{
+			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+			System.out.println("Error (RemarkPanel.java) " + e.getMessage());
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+			System.out.println("Error (RemarkPanel.java) " + e.getMessage());
+		}
 	}
 	
 	public void actionPerformed(ActionEvent evt)
@@ -115,6 +147,17 @@ public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 				note.setEditable(false);
 				editBtn.setText("edit");
 			}
+			else if(btnText.equals("Download"))
+			{
+				FileComment fileComment = (FileComment)comment;
+				JFileChooser fch = new JFileChooser();
+				
+				int returnVal = fch.showSaveDialog(this.getTopLevelAncestor());
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File fileDest = fch.getSelectedFile();
+					FileOperation.downloadFile(fileComment.getFile(), fileDest);
+				}
+			}
 			else
 			{
 				JOptionPane.showMessageDialog(this.getTopLevelAncestor(), "Y U No Implement?");
@@ -127,7 +170,7 @@ public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Error - " + e.getMessage());
+			System.out.println("Error (RemarkPanel.java) " + e.getMessage());
 		}
 	}
 	

@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.file.*;
 
 public class FileOperation
 {
@@ -13,11 +14,11 @@ public class FileOperation
 		}
 		catch(FileNotFoundException e)
 		{
-			System.out.println("Warning - " + e.getMessage() + " <creating a new file>");
+			System.out.println("Warning (FileOperation.java) " + e.getMessage() + " <creating a new file>");
 		}
 		catch(Exception e)
 		{
-			System.out.println("Error - " + e.getMessage());
+			System.out.println("Error (FileOperation.java) " + e.getMessage());
 		}
 	}
 	
@@ -30,13 +31,55 @@ public class FileOperation
 		}
 		catch(FileNotFoundException e)
 		{
-			System.out.println("Warning - " + e.getMessage());
+			System.out.println("Warning (FileOperation.java) " + e.getMessage());
 			return null;
 		}
 		catch(Exception e)
 		{
-			System.out.println("Error - " + e.getMessage());
+			System.out.println("Error (FileOperation.java) " + e.getMessage());
 			return null;
+		}
+	}
+	
+	public static File uploadFile(File src, String subdir)
+	{
+		try
+		{
+			File dir = new File(subdir);
+			
+			if(!dir.exists())
+				dir.mkdir();
+			
+			File dest = new File(dir, src.getName());
+			
+			Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			return dest;
+		}
+		catch(NullPointerException e)
+		{
+			System.out.println("Error (FileOperation.java) " + e.getMessage());
+			return null;
+		}
+		catch(Exception e)
+		{
+			System.out.println("Error (FileOperation.java) " + e.getMessage());
+			return null;
+		}
+	}
+	
+	public static void downloadFile(File src, File dest)
+	{
+		try
+		{
+			Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		}
+		catch(NullPointerException e)
+		{
+			System.out.println("Error (FileOperation.java) " + e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println("Error (FileOperation.java) " + e.getMessage());
 		}
 	}
 }

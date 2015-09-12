@@ -93,8 +93,12 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		JButton postImgBtn = new JButton("Image");
 		postImgBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
 		postImgBtn.addActionListener(this);
+		JButton postFileBtn = new JButton("File");
+		postFileBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
+		postFileBtn.addActionListener(this);
 		sendPanel.add(postBtn);
 		sendPanel.add(postImgBtn);
+		sendPanel.add(postFileBtn);
 		
 		messagePanel.add(new JScrollPane(messageArea));
 		messagePanel.add(sendPanel);
@@ -204,14 +208,42 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 					if (returnVal == JFileChooser.APPROVE_OPTION)
 					{
 						File file = fch.getSelectedFile();
-						ImageIcon img = new ImageIcon(file.getAbsolutePath());
+						File imagePath = FileOperation.uploadFile(file, "images");
 						
 						String commentText = messageArea.getText();
 						if((commentText != null) && (commentText.length() > 0))
 						{
 							if(commentText.equals("Enter your post here..."))
 								commentText = "";
-							selectedDiscussion.addComment(new Comment(commentText, MainFrame.currentUser, img));
+							selectedDiscussion.addComment(new ImageComment(commentText, MainFrame.currentUser, imagePath));
+							updateMessageBoard();
+							messageArea.setText("Enter your post here...");
+						}
+					}
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(this.getTopLevelAncestor(), "Please select a Discussion of a Subject!", "Error!", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			else if(btnText.equals("File"))
+			{
+				if(selectedDiscussion != null)
+				{
+					JFileChooser fch = new JFileChooser();
+					
+					int returnVal = fch.showOpenDialog(this.getTopLevelAncestor());
+					if (returnVal == JFileChooser.APPROVE_OPTION)
+					{
+						File file = fch.getSelectedFile();
+						File filePath = FileOperation.uploadFile(file, "files");
+						
+						String commentText = messageArea.getText();
+						if((commentText != null) && (commentText.length() > 0))
+						{
+							if(commentText.equals("Enter your post here..."))
+								commentText = "";
+							selectedDiscussion.addComment(new FileComment(commentText, MainFrame.currentUser, filePath));
 							updateMessageBoard();
 							messageArea.setText("Enter your post here...");
 						}
@@ -232,7 +264,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Error - " + e.getMessage());
+			System.out.println("Error (OperationPanel.java) " + e.getMessage());
 		}
 	}
 	
@@ -276,7 +308,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Error - " + e.getMessage());
+			System.out.println("Error (OperationPanel.java) " + e.getMessage());
 		}
 	}
 	
