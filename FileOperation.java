@@ -7,7 +7,12 @@ public class FileOperation
 	{
 		try
 		{
-			ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(path));
+			File dir = new File("data");
+			if(!dir.exists())
+				dir.mkdir();
+			File target = new File(dir, path);
+			
+			ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(target.getPath()));
 			objectOutputStream.writeObject(obj);
 			objectOutputStream.flush();
 			objectOutputStream.close();
@@ -26,7 +31,12 @@ public class FileOperation
 	{
 		try
 		{
-			ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(path));
+			File dir = new File("data");
+			if(!dir.exists())
+				dir.mkdir();
+			File target = new File(dir, path);
+			
+			ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(target.getPath()));
 			return objectInputStream.readObject();
 		}
 		catch(FileNotFoundException e)
@@ -46,7 +56,6 @@ public class FileOperation
 		try
 		{
 			File dir = new File(subdir);
-			
 			if(!dir.exists())
 				dir.mkdir();
 			
