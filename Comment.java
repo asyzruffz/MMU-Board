@@ -1,13 +1,17 @@
 import java.io.*;
 import java.util.*;
 import java.text.*;
+import javax.swing.ImageIcon;
 
 public class Comment implements Serializable, Comparator<Comment>, Comparable<Comment>
 {
 	private String text = "";
+	private ImageIcon icon;
 	private User author = new User();
 	private Discussion parent;
-	private Date date;
+	private Date dateCreated;
+	private Date dateEdited;
+	private String createdOn = "";
 	private String latestEdit = "";
 	private int karma;
 	
@@ -16,14 +20,22 @@ public class Comment implements Serializable, Comparator<Comment>, Comparable<Co
 	public Comment(String text){
 		this.text = text;
 		
-		setTimeEdited();
+		setTimeEdited(false);
 	}
 	
 	public Comment(String text, User author){
 		this.text = text;
 		this.author = author;
 		
-		setTimeEdited();
+		setTimeEdited(false);
+	}
+	
+	public Comment(String text, User author, ImageIcon icon){
+		this.text = text;
+		this.icon = icon;
+		this.author = author;
+		
+		setTimeEdited(false);
 	}
 	
 	public String getText(){
@@ -32,6 +44,10 @@ public class Comment implements Serializable, Comparator<Comment>, Comparable<Co
 	
 	public void setText(String text){
 		this.text = text;
+	}
+	
+	public ImageIcon getIcon(){
+		return icon;
 	}
 	
 	public User getAuthor(){
@@ -62,8 +78,14 @@ public class Comment implements Serializable, Comparator<Comment>, Comparable<Co
 		return karma;
 	}
 	
-	public void setTimeEdited(){
-		date = new Date();
+	public void setTimeEdited(boolean edit){
+		Date date = new Date();
+		
+		if(edit)
+			dateEdited = date;
+		else
+			dateCreated = date;
+		
 		SimpleDateFormat ft = new SimpleDateFormat("E dd.MM.yyyy 'at' hh:mm a");
 		latestEdit = ft.format(date);
 	}
@@ -77,10 +99,16 @@ public class Comment implements Serializable, Comparator<Comment>, Comparable<Co
 	}
 	
 	public int compareTo(Comment c){
-		return (new Integer(karma)).compareTo(c.karma);
+		if((new Integer(karma)).compareTo(c.karma) == 0)
+			return c.dateCreated.compareTo(dateCreated);
+		else
+			return (new Integer(karma)).compareTo(c.karma);
 	}
 
 	public int compare(Comment c1, Comment c2){
-		return c1.karma - c2.karma;
+		if((new Integer(c1.karma)).compareTo(c2.karma) == 0)
+			return c2.dateCreated.compareTo(c1.dateCreated);
+		else
+			return (new Integer(c1.karma)).compareTo(c2.karma);
 	}
 }

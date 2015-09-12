@@ -237,7 +237,6 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		else if(btnText.equals("Log Out"))
 		{
 			setVisible(false);
-			currentUser = null;
 		}
 		else if(btnText.equals("Register"))
 		{

@@ -51,5 +51,6 @@ public class ViewPanel extends JPanel
 		parent.add(new ViewPanel(discussion), "A");
 		cardLayout.show(parent, "A");
 		parent.remove(0);
+		OperationPanel.save();
 	}
 }

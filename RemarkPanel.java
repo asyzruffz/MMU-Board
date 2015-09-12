@@ -24,7 +24,10 @@ public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 	
 	private void initPanel()
 	{
-		JPanel contentPanel = new JPanel(new GridLayout(1, 0));
+		//JPanel contentPanel = new JPanel(new FlowLayout());
+		//JPanel contentPanel = new JPanel(new GridLayout(1, 0));
+		JPanel contentPanel = new JPanel();
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.PAGE_AXIS));
 		
 		TitledBorder titleBorder = BorderFactory.createTitledBorder(comment.getAuthor().getNickname()+" ("+comment.getKarma()+")");
 		TitledBorder dateBorder = BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), comment.getTimeEdited(),
@@ -39,6 +42,13 @@ public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 		note.setLineWrap(true);
 		note.setWrapStyleWord(true);
 		contentPanel.add(note);
+		if(comment.getIcon() != null)
+		{
+			JScrollPane imgScrollPane = new JScrollPane(new JLabel(comment.getIcon()));
+			imgScrollPane.setPreferredSize(new Dimension(Math.min(comment.getIcon().getIconWidth(), note.getPreferredSize().width),
+														comment.getIcon().getIconHeight()+4));
+			contentPanel.add(imgScrollPane);
+		}
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
@@ -69,7 +79,6 @@ public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 		//buttonsPanel.add(replyBtn);
 		
 		add(contentPanel, BorderLayout.CENTER);
-		//add(new JLabel(""+comment.getKarma()), BorderLayout.LINE_END);
 		add(buttonsPanel, BorderLayout.PAGE_END);
 	}
 	
@@ -101,7 +110,7 @@ public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 			else if(btnText.equals("done"))
 			{
 				comment.setText(note.getText());
-				comment.setTimeEdited();
+				comment.setTimeEdited(true);
 				note.setOpaque(false);
 				note.setEditable(false);
 				editBtn.setText("edit");
@@ -127,7 +136,7 @@ public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 	public void focusLost(FocusEvent evt)
 	{
 		comment.setText(note.getText());
-		comment.setTimeEdited();
+		comment.setTimeEdited(true);
 		note.setOpaque(false);
 		note.setEditable(false);
 		editBtn.setText("edit");

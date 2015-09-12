@@ -7,7 +7,7 @@ import java.util.*;
 
 public class OperationPanel extends JPanel implements ActionListener, ListSelectionListener, FocusListener
 {
-	private Vector<Subject> subjectList = new Vector<Subject>();
+	private static Vector<Subject> subjectList = new Vector<Subject>();
 	private Subject selectedSubject = null;
 	private Discussion selectedDiscussion = null;
 	private JList<Subject> allSubjects;
@@ -83,11 +83,21 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		JPanel messagePanel = new JPanel();
 		messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.LINE_AXIS));
 		messageArea.addFocusListener(this);
-		messagePanel.add(new JScrollPane(messageArea));
+		
+		JPanel sendPanel = new JPanel();
+		//sendPanel.setLayout(new GridLayout(2, 0));
+		sendPanel.setLayout(new BoxLayout(sendPanel, BoxLayout.PAGE_AXIS));
 		JButton postBtn = new JButton("Post");
 		postBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
 		postBtn.addActionListener(this);
-		messagePanel.add(postBtn);
+		JButton postImgBtn = new JButton("Image");
+		postImgBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
+		postImgBtn.addActionListener(this);
+		sendPanel.add(postBtn);
+		sendPanel.add(postImgBtn);
+		
+		messagePanel.add(new JScrollPane(messageArea));
+		messagePanel.add(sendPanel);
 		
 		middlePanel.add(new JScrollPane(view), BorderLayout.CENTER);
 		if(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT))
@@ -172,7 +182,6 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 				if(selectedDiscussion != null)
 				{
 					String commentText = messageArea.getText();
-					
 					if((commentText != null) && (commentText.length() > 0) && (!commentText.equals("Enter your post here...")))
 					{
 						selectedDiscussion.addComment(new Comment(commentText, MainFrame.currentUser));
@@ -184,6 +193,38 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 				{
 					JOptionPane.showMessageDialog(this.getTopLevelAncestor(), "Please select a Discussion of a Subject!", "Error!", JOptionPane.ERROR_MESSAGE);
 				}
+			}
+			else if(btnText.equals("Image"))
+			{
+				if(selectedDiscussion != null)
+				{
+					JFileChooser fch = new JFileChooser();
+					int returnVal = fch.showOpenDialog(this.getTopLevelAncestor());
+					
+					if (returnVal == JFileChooser.APPROVE_OPTION)
+					{
+						File file = fch.getSelectedFile();
+						ImageIcon img = new ImageIcon(file.getAbsolutePath());
+						
+						String commentText = messageArea.getText();
+						if((commentText != null) && (commentText.length() > 0))
+						{
+							if(commentText.equals("Enter your post here..."))
+								commentText = "";
+							selectedDiscussion.addComment(new Comment(commentText, MainFrame.currentUser, img));
+							updateMessageBoard();
+							messageArea.setText("Enter your post here...");
+						}
+					}
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(this.getTopLevelAncestor(), "Please select a Discussion of a Subject!", "Error!", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this.getTopLevelAncestor(), btnText + " has not been implemented!");
 			}
 			
 			FileOperation.saveToFile(subjectList, "content");
@@ -286,6 +327,10 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		view.add(new ViewPanel(selectedDiscussion), "A");
 		cardLayout.show(view, "A");
 		view.remove(0);
+	}
+	
+	public static void save()
+	{
 		FileOperation.saveToFile(subjectList, "content");
 	}
 }
