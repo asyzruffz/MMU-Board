@@ -163,39 +163,44 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		content.setBackground(Color.WHITE);
 		content.setLayout(new BorderLayout());
 		
-		JToolBar toolBar = new JToolBar("Trivial Toolbar");
+		/*JToolBar toolBar = new JToolBar("Trivial Toolbar");
 		bttn = new JButton(" A ");
 		toolBar.add(bttn);
 		bttn = new JButton(" B ");
 		toolBar.add(bttn);
 		bttn = new JButton(" C ");
 		toolBar.add(bttn);
-		content.add(toolBar, BorderLayout.PAGE_START);
+		content.add(toolBar, BorderLayout.PAGE_START);*/
+		
+		JPanel topPanel = new JPanel();
+		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.LINE_AXIS));
+		topPanel.add(Box.createHorizontalStrut(5));
+		topPanel.add(new JLabel("Welcome! "));
+		topPanel.add(new JLabel(currentUser.getNickname()));
+		
+		Box.Filler glue1 = (Box.Filler)Box.createHorizontalGlue();
+		glue1.changeShape(glue1.getMinimumSize(), new Dimension(Short.MAX_VALUE/4, 0), glue1.getMaximumSize());
+		topPanel.add(glue1);
+		
+		JButton settingBtn = new JButton("Setting");
+		topPanel.add(settingBtn);
+		settingBtn.addActionListener(this);
+		topPanel.add(Box.createHorizontalStrut(5));
+		
+		content.add(topPanel, BorderLayout.PAGE_START);
 		
 		opr = new OperationPanel();
 		content.add(opr, BorderLayout.CENTER);
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));
-		bottomPanel.add(Box.createHorizontalStrut(5));
-		bottomPanel.add(new JButton("Setting"));
-		bottomPanel.add(Box.createHorizontalStrut(5));
+		Box.Filler glue2 = (Box.Filler)Box.createHorizontalGlue();
+		glue2.changeShape(glue2.getMinimumSize(), new Dimension(Short.MAX_VALUE/4, 0), glue2.getMaximumSize());
+		bottomPanel.add(glue2);
 		bottomPanel.add(new JSeparator(JSeparator.VERTICAL));
 		bottomPanel.add(Box.createHorizontalStrut(5));
-		bottomPanel.add(new JLabel("Welcome! "));
-		bottomPanel.add(new JLabel(currentUser.getNickname()));
+		bottomPanel.add(new JButton(" "));
 		bottomPanel.add(Box.createHorizontalStrut(5));
-		bottomPanel.add(new JSeparator(JSeparator.VERTICAL));
-		bottomPanel.add(Box.createHorizontalStrut(5));
-		bottomPanel.add(Box.createHorizontalGlue());
-		bottomPanel.add(Box.createHorizontalGlue());
-		//bottomPanel.add(new JLabel("                                                                                                                                                               "));
-		//bottomPanel.add(Box.createHorizontalStrut(5));
-		//bottomPanel.add(new JSeparator(JSeparator.VERTICAL));
-		//bottomPanel.add(Box.createHorizontalStrut(5));
-		//bottomPanel.add(new JLabel("Made by Asyraf"));
-		//bottomPanel.add(Box.createHorizontalStrut(5));
-		//bottomPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		content.add(bottomPanel, BorderLayout.PAGE_END);
 	}
 	
