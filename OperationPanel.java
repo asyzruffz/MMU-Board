@@ -57,7 +57,7 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		JButton newDiscBtn = new JButton("+");
 		newDiscBtn.setActionCommand("Add New Discussion");
 		newDiscBtn.addActionListener(this);
-		newDiscBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.LECTURER));
+		newDiscBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
 		JButton delDiscBtn = new JButton("-");
 		delDiscBtn.setActionCommand("Delete Discussion");
 		delDiscBtn.addActionListener(this);
