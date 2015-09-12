@@ -11,7 +11,12 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 	private OperationPanel opr;
 	public static User currentUser = new User();
 	
-	public MainFrame(String title)
+	public MainFrame()
+	{
+		WindowUtilities.setNativeLookAndFeel();
+	}
+	
+	public MainFrame(String title, User us)
 	{
 		super(title);
 		setDefaultCloseOperation(MainFrame.EXIT_ON_CLOSE);
@@ -21,8 +26,7 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		WindowUtilities.setNativeLookAndFeel();
 		SwingUtilities.updateComponentTreeUI(fch);
 		
-		LoginDialog loginPrompt = new LoginDialog(this);
-		currentUser = loginPrompt.acquireUser();
+		currentUser = us;
 		
 		setMenus();
 		setPanels();
@@ -49,7 +53,7 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
 		menuItem.addActionListener(this);
 		menuItem.setEnabled(false);
-		menu.add(menuItem);
+		//menu.add(menuItem);
 		
 		menuItem = new JMenuItem("Open...", KeyEvent.VK_O);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
@@ -62,6 +66,12 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		menuItem.getAccessibleContext().setAccessibleDescription("This only opens the File Chooser");
 		menuItem.addActionListener(this);
 		//menu.add(menuItem);
+		
+		menuItem = new JMenuItem("Log Out", KeyEvent.VK_L);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
+		menuItem.getAccessibleContext().setAccessibleDescription("This logs you out");
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
 		
 		menu.addSeparator();
 		
@@ -218,6 +228,11 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 				
 				JOptionPane.showMessageDialog(this, "Can't save anything yet!");
             }
+		}
+		else if(btnText.equals("Log Out"))
+		{
+			setVisible(false);
+			currentUser = null;
 		}
 		else if(btnText.equals("Register"))
 		{

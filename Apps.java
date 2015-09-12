@@ -11,12 +11,25 @@ import javax.swing.*;
 
 public class Apps
 {
-	MainFrame mFrame;
+	public MainFrame mFrame = new MainFrame();
 	
 	public Apps()
 	{
 		System.out.println("Apps initialized!");
-		mFrame = new MainFrame("Online MMU-Board System");
+		run();
+	}
+	
+	public void run()
+	{
+		while(true)
+		{
+			if(!mFrame.isVisible())
+			{
+				LoginDialog loginPrompt = new LoginDialog(mFrame);
+				mFrame = new MainFrame("Online MMU-Board System", loginPrompt.acquireUser());
+			}
+			System.out.print("");
+		}
 	}
 	
 	public static void main(String[] args)
