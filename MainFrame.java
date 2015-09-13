@@ -214,7 +214,7 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		}
 		else if(btnText.equals("Open..."))
 		{
-			int returnVal = fch.showOpenDialog(MainFrame.this);
+			int returnVal = fch.showOpenDialog(this);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 //File file = fch.getSelectedFile();
@@ -225,7 +225,7 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		}
 		else if(btnText.equals("Save As..."))
 		{
-			int returnVal = fch.showSaveDialog(MainFrame.this);
+			int returnVal = fch.showSaveDialog(this);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 //File file = fch.getSelectedFile();
@@ -240,7 +240,11 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		}
 		else if(btnText.equals("Register"))
 		{
-			RegisterDialog registerPrompt = new RegisterDialog(this);
+			RegisterDialog registerPrompt = new RegisterDialog(this, false);
+		}
+		else if(btnText.equals("Setting"))
+		{
+			RegisterDialog registerPrompt = new RegisterDialog(this, true);
 		}
 		else if(btnText.equals("Authorize Registration"))
 		{
