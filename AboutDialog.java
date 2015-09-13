@@ -8,6 +8,7 @@ public class AboutDialog extends JDialog implements ActionListener
 	public AboutDialog(JFrame owner)
 	{
 		super(owner, true);
+		setTitle(" About");
 		setSize(300, 400);
 		setResizable(false);
 		setLocationRelativeTo(this);

@@ -15,7 +15,8 @@ public class LoginDialog extends JDialog implements ActionListener
 	public LoginDialog(JFrame owner)
 	{
 		super(owner, true);
-		setSize(300, 400);
+		setTitle(" Online MMU-Board System");
+		setSize(300, 170);
 		setResizable(false);
 		setLocationRelativeTo(this);
 		addWindowListener(new WindowAdapter()

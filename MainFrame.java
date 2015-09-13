@@ -163,15 +163,6 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		content.setBackground(Color.WHITE);
 		content.setLayout(new BorderLayout());
 		
-		/*JToolBar toolBar = new JToolBar("Trivial Toolbar");
-		bttn = new JButton(" A ");
-		toolBar.add(bttn);
-		bttn = new JButton(" B ");
-		toolBar.add(bttn);
-		bttn = new JButton(" C ");
-		toolBar.add(bttn);
-		content.add(toolBar, BorderLayout.PAGE_START);*/
-		
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.LINE_AXIS));
 		topPanel.add(Box.createHorizontalStrut(5));
@@ -185,6 +176,11 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		JButton settingBtn = new JButton("Setting");
 		topPanel.add(settingBtn);
 		settingBtn.addActionListener(this);
+		settingBtn.setEnabled(currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
+		topPanel.add(Box.createHorizontalStrut(5));
+		JButton logoutBtn = new JButton("Log Out");
+		topPanel.add(logoutBtn);
+		logoutBtn.addActionListener(this);
 		topPanel.add(Box.createHorizontalStrut(5));
 		
 		content.add(topPanel, BorderLayout.PAGE_START);

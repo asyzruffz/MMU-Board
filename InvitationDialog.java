@@ -12,6 +12,7 @@ public class InvitationDialog extends JDialog implements ActionListener
 	public InvitationDialog(JFrame owner)
 	{
 		super(owner, true);
+		setTitle(" List of Users");
 		setSize(400, 400);
 		setResizable(false);
 		setLocationRelativeTo(this);

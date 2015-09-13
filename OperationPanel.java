@@ -85,15 +85,23 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		messageArea.addFocusListener(this);
 		
 		JPanel sendPanel = new JPanel();
-		//sendPanel.setLayout(new GridLayout(2, 0));
 		sendPanel.setLayout(new BoxLayout(sendPanel, BoxLayout.PAGE_AXIS));
 		JButton postBtn = new JButton("Post");
+		//postBtn.setMinimumSize(new Dimension(63, 23));
+		postBtn.setMaximumSize(new Dimension(63, 23));
+		//postBtn.setPreferredSize(new Dimension(63, 23));
 		postBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
 		postBtn.addActionListener(this);
 		JButton postImgBtn = new JButton("Image");
+		//postImgBtn.setMinimumSize(new Dimension(63, 23));
+		postImgBtn.setMaximumSize(new Dimension(63, 23));
+		//postImgBtn.setPreferredSize(new Dimension(63, 23));
 		postImgBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
 		postImgBtn.addActionListener(this);
 		JButton postFileBtn = new JButton("File");
+		//postFileBtn.setMinimumSize(new Dimension(63, 23));
+		postFileBtn.setMaximumSize(new Dimension(63, 23));
+		//postFileBtn.setPreferredSize(new Dimension(63, 23));
 		postFileBtn.setEnabled(MainFrame.currentUser.requireAccessLevel(User.AccessLevel.STUDENT));
 		postFileBtn.addActionListener(this);
 		sendPanel.add(postBtn);

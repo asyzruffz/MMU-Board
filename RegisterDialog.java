@@ -17,6 +17,7 @@ public class RegisterDialog extends JDialog implements ActionListener
 	{
 		super(owner, true);
 		this.edit = edit;
+		setTitle(" Create an Account");
 		setSize(350, 250);
 		setResizable(false);
 		setLocationRelativeTo(this);
