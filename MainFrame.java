@@ -166,7 +166,7 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.LINE_AXIS));
 		topPanel.add(Box.createHorizontalStrut(5));
-		topPanel.add(new JLabel("Welcome! "));
+		topPanel.add(new JLabel(" Welcome! "));
 		topPanel.add(new JLabel(currentUser.getNickname()));
 		
 		Box.Filler glue1 = (Box.Filler)Box.createHorizontalGlue();
