@@ -35,7 +35,7 @@ public class Discussion implements Serializable
 		sortComments();
 	}
 	
-	public Vector<Comment> getAllComment(){
+	public Vector<Comment> getAllComments(){
 		return commentList;
 	}
 	

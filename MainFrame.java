@@ -246,9 +246,13 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		{
 			InvitationDialog invitePrompt = new InvitationDialog(this);
 		}
+		else if(btnText.equals("View Statistics"))
+		{
+			ReportDialog reportPrompt = new ReportDialog(this);
+		}
 		else if(btnText.equals("About"))
 		{
-			new AboutDialog(this);
+			AboutDialog aboutPrompt = new AboutDialog(this);
 		}
 		else
 		{

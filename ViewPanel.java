@@ -33,7 +33,7 @@ public class ViewPanel extends JPanel
 			add(titlePanel);
 			
 			discussion.sortComments();
-			for(Comment msg : discussion.getAllComment())
+			for(Comment msg : discussion.getAllComments())
 			{
 				add(new RemarkPanel(msg));
 			}
