@@ -22,7 +22,7 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		setDefaultCloseOperation(MainFrame.EXIT_ON_CLOSE);
 		addComponentListener(this);
 		setSize(800, 600);
-		setIconImage(new ImageIcon("mmuico.png", "").getImage());
+		setIconImage(new ImageIcon("icon.png", "").getImage());
 		WindowUtilities.setNativeLookAndFeel();
 		SwingUtilities.updateComponentTreeUI(fch);
 		
@@ -35,7 +35,7 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		setVisible(true);
 	}
 	
-	public void setMenus()
+	private void setMenus()
 	{
 		//Create the menu bar.
 		JMenuBar menuBar = new JMenuBar();
@@ -157,7 +157,7 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		setJMenuBar(menuBar);
 	}
 	
-	public void setPanels()
+	private void setPanels()
 	{
 		Container content = getContentPane();
 		content.setBackground(Color.WHITE);
@@ -166,7 +166,7 @@ public class MainFrame extends JFrame implements ActionListener, ComponentListen
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.LINE_AXIS));
 		topPanel.add(Box.createHorizontalStrut(5));
-		topPanel.add(new JLabel(" Welcome! "));
+		topPanel.add(new JLabel("Welcome! "));
 		topPanel.add(new JLabel(currentUser.getNickname()));
 		
 		Box.Filler glue1 = (Box.Filler)Box.createHorizontalGlue();

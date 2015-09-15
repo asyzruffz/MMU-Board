@@ -9,7 +9,6 @@ public class Comment implements Serializable, Comparator<Comment>, Comparable<Co
 	private Discussion parent;
 	private Date dateCreated;
 	private Date dateEdited;
-	private String createdOn = "";
 	private String latestEdit = "";
 	private int karma;
 	

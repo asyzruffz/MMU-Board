@@ -11,7 +11,7 @@ import javax.swing.*;
 
 public class Apps
 {
-	public MainFrame mFrame = new MainFrame();
+	private MainFrame mFrame = new MainFrame();
 	
 	public Apps()
 	{
