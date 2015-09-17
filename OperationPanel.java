@@ -271,8 +271,11 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		}
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Error (OperationPanel.java) " + e.getMessage());
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			
+			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), errors.toString(), "Error!", JOptionPane.ERROR_MESSAGE);
+			System.out.println(errors.toString());
 		}
 	}
 	
@@ -315,8 +318,11 @@ public class OperationPanel extends JPanel implements ActionListener, ListSelect
 		}
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Error (OperationPanel.java) " + e.getMessage());
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			
+			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), errors.toString(), "Error!", JOptionPane.ERROR_MESSAGE);
+			System.out.println(errors.toString());
 		}
 	}
 	

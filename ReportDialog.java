@@ -1,3 +1,4 @@
+import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -83,8 +84,11 @@ public class ReportDialog extends JDialog implements ActionListener
 		}
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Error (ReportDialog.java) " + e.getMessage());
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			
+			JOptionPane.showMessageDialog(this, errors.toString(), "Error!", JOptionPane.ERROR_MESSAGE);
+			System.out.println(errors.toString());
 		}
 	}
 	
@@ -149,8 +153,11 @@ public class ReportDialog extends JDialog implements ActionListener
 		}
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Error (ReportDialog.java) " + e.getMessage());
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			
+			JOptionPane.showMessageDialog(this, errors.toString(), "Error!", JOptionPane.ERROR_MESSAGE);
+			System.out.println(errors.toString());
 		}
 	}
 	
@@ -168,8 +175,11 @@ public class ReportDialog extends JDialog implements ActionListener
 		}
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Error (ReportDialog.java) " + e.getMessage());
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			
+			JOptionPane.showMessageDialog(this, errors.toString(), "Error!", JOptionPane.ERROR_MESSAGE);
+			System.out.println(errors.toString());
 		}
 	}
 }

@@ -20,10 +20,12 @@ public class FileOperation
 		catch(FileNotFoundException e)
 		{
 			System.out.println("Warning (FileOperation.java) " + e.getMessage() + " <creating a new file>");
+			e.printStackTrace();
 		}
 		catch(Exception e)
 		{
 			System.out.println("Error (FileOperation.java) " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
@@ -42,11 +44,13 @@ public class FileOperation
 		catch(FileNotFoundException e)
 		{
 			System.out.println("Warning (FileOperation.java) " + e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 		catch(Exception e)
 		{
 			System.out.println("Error (FileOperation.java) " + e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -67,11 +71,13 @@ public class FileOperation
 		catch(NullPointerException e)
 		{
 			System.out.println("Error (FileOperation.java) " + e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 		catch(Exception e)
 		{
 			System.out.println("Error (FileOperation.java) " + e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -85,10 +91,12 @@ public class FileOperation
 		catch(NullPointerException e)
 		{
 			System.out.println("Error (FileOperation.java) " + e.getMessage());
+			e.printStackTrace();
 		}
 		catch(Exception e)
 		{
 			System.out.println("Error (FileOperation.java) " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 }

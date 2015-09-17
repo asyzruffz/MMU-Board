@@ -104,13 +104,19 @@ public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 		}
 		catch(NullPointerException e)
 		{
-			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Error (RemarkPanel.java) " + e.getMessage());
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			
+			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), errors.toString(), "Error!", JOptionPane.ERROR_MESSAGE);
+			System.out.println(errors.toString());
 		}
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Error (RemarkPanel.java) " + e.getMessage());
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			
+			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), errors.toString(), "Error!", JOptionPane.ERROR_MESSAGE);
+			System.out.println(errors.toString());
 		}
 	}
 	
@@ -169,8 +175,11 @@ public class RemarkPanel extends JPanel implements ActionListener, FocusListener
 		}
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Error (RemarkPanel.java) " + e.getMessage());
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			
+			JOptionPane.showMessageDialog(this.getTopLevelAncestor(), errors.toString(), "Error!", JOptionPane.ERROR_MESSAGE);
+			System.out.println(errors.toString());
 		}
 	}
 	
