@@ -6,6 +6,7 @@
 *				 4. Kamil Pervaiz					*
 *****************************************************/
 
+import java.io.*;
 import java.awt.*;
 import javax.swing.*;
 
@@ -40,8 +41,11 @@ public class Apps
 		}
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-			System.out.println("Error - " + e.getMessage());
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			
+			JOptionPane.showMessageDialog(new JFrame(), errors.toString(), "Error!", JOptionPane.ERROR_MESSAGE);
+			System.out.println(errors.toString());
 			System.out.println("Apps destroyed!");
 			System.exit(0);
 		}
