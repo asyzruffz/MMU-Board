@@ -19,7 +19,7 @@ public class FileOperation
 		}
 		catch(FileNotFoundException e)
 		{
-			System.out.println("Warning (FileOperation.java) " + e.getMessage() + " <creating a new file>");
+			System.out.println("Warning (FileOperation.java) " + e.getMessage() + " Creating a new file>");
 			e.printStackTrace();
 		}
 		catch(Exception e)
@@ -44,7 +44,6 @@ public class FileOperation
 		catch(FileNotFoundException e)
 		{
 			System.out.println("Warning (FileOperation.java) " + e.getMessage());
-			e.printStackTrace();
 			return null;
 		}
 		catch(Exception e)

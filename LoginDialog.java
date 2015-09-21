@@ -5,12 +5,12 @@ import java.util.*;
 
 public class LoginDialog extends JDialog implements ActionListener
 {
-	User incomingUser = new User();
-	JTextField usernameField = new JTextField(20);
-	JPasswordField passwordField = new JPasswordField(20);
+	private User incomingUser = new User();
+	private JTextField usernameField = new JTextField(20);
+	private JPasswordField passwordField = new JPasswordField(20);
 	private Vector<User> userList = new Vector<User>();
-	char[] adminPass = {'1','2','3','4','5'};
-	User admin = new User("admin", adminPass, "Admin", User.AccessLevel.ADMIN, true);
+	private char[] adminPass = {'1','2','3','4','5'};
+	private User admin = new User("admin", adminPass, "Admin", User.AccessLevel.ADMIN, true);
 	
 	public LoginDialog(JFrame owner)
 	{

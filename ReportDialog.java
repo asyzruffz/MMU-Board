@@ -25,7 +25,7 @@ public class ReportDialog extends JDialog implements ActionListener
 	{
 		super(owner, true);
 		setTitle(" Statistic Report");
-		setSize(300, 400);
+		setSize(300, 440);
 		setResizable(false);
 		setLocationRelativeTo(this);
 		
@@ -42,35 +42,68 @@ public class ReportDialog extends JDialog implements ActionListener
 			
 			calculateStatistic();
 			
-			JPanel middlePanel = new JPanel();
+			JPanel middlePanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+			JPanel rowPanel;
 			
-			middlePanel.add(new JLabel("Number of students registered"));
-			middlePanel.add(new JLabel(": "+studNo));
-			middlePanel.add(new JLabel("Number of lecturers registered"));
-			middlePanel.add(new JLabel(": "+lectNo));
-			middlePanel.add(new JLabel("Number of accounts unapproved"));
-			middlePanel.add(new JLabel(": "+xApprNo));
+			rowPanel = new JPanel();
+			rowPanel.add(new JLabel("Number of students registered                       "));
+			rowPanel.add(new JLabel(": "+studNo));
+			middlePanel.add(rowPanel);
+			rowPanel = new JPanel();
+			rowPanel.add(new JLabel("Number of lecturers registered                       "));
+			rowPanel.add(new JLabel(": "+lectNo));
+			middlePanel.add(rowPanel);
+			rowPanel = new JPanel();
+			rowPanel.add(new JLabel("Number of accounts unapproved                    "));
+			rowPanel.add(new JLabel(": "+xApprNo));
+			middlePanel.add(rowPanel);
 			
-			middlePanel.add(new JLabel("Total number of subjects available"));
-			middlePanel.add(new JLabel(": "+subjNo));
-			middlePanel.add(new JLabel("Total number of discussions created"));
-			middlePanel.add(new JLabel(": "+discNo));
-			middlePanel.add(new JLabel("Total number of comments posted"));
-			middlePanel.add(new JLabel(": "+commNo));
+			rowPanel = new JPanel();
+			rowPanel.add(new JLabel("Total number of subjects available                 "));
+			rowPanel.add(new JLabel(": "+subjNo));
+			middlePanel.add(rowPanel);
+			rowPanel = new JPanel();
+			rowPanel.add(new JLabel("Total number of discussions created              "));
+			rowPanel.add(new JLabel(": "+discNo));
+			middlePanel.add(rowPanel);
+			rowPanel = new JPanel();
+			rowPanel.add(new JLabel("Total number of comments posted                 "));
+			rowPanel.add(new JLabel(": "+commNo));
+			middlePanel.add(rowPanel);
 			
-			middlePanel.add(new JLabel("Min number of discussions in a subject"));
-			middlePanel.add(new JLabel(": "+minDisc));
-			middlePanel.add(new JLabel("Max number of discussions in a subject"));
-			middlePanel.add(new JLabel(": "+maxDisc));
-			middlePanel.add(new JLabel("Average number of discussions in a subject"));
-			middlePanel.add(new JLabel(": " + ((subjNo > 0) ? ((double)discNo/subjNo) : 0)));
+			rowPanel = new JPanel();
+			rowPanel.add(new JLabel("Min number of discussions in a subject           "));
+			rowPanel.add(new JLabel(": "+minDisc));
+			middlePanel.add(rowPanel);
+			rowPanel = new JPanel();
+			rowPanel.add(new JLabel("Max number of discussions in a subject          "));
+			rowPanel.add(new JLabel(": "+maxDisc));
+			middlePanel.add(rowPanel);
 			
-			middlePanel.add(new JLabel("Min number of comments in a discussion"));
-			middlePanel.add(new JLabel(": "+minComm));
-			middlePanel.add(new JLabel("Max number of comments in a discussion"));
-			middlePanel.add(new JLabel(": "+maxComm));
-			middlePanel.add(new JLabel("Average number of comments in a discussion"));
-			middlePanel.add(new JLabel(": " + ((discNo > 0) ? ((double)commNo/discNo) : 0)));
+			double avrDisc = ((subjNo > 0) ? (1000*discNo/subjNo) : 0);
+			avrDisc /= 1000;  // rounded to 3 decimal places
+			
+			rowPanel = new JPanel();
+			rowPanel.add(new JLabel("Average number of discussions in a subject   "));
+			rowPanel.add(new JLabel(": " + avrDisc));
+			middlePanel.add(rowPanel);
+			
+			rowPanel = new JPanel();
+			rowPanel.add(new JLabel("Min number of comments in a discussion         "));
+			rowPanel.add(new JLabel(": "+minComm));
+			middlePanel.add(rowPanel);
+			rowPanel = new JPanel();
+			rowPanel.add(new JLabel("Max number of comments in a discussion       "));
+			rowPanel.add(new JLabel(": "+maxComm));
+			middlePanel.add(rowPanel);
+			
+			double avrComm = ((discNo > 0) ? (1000*commNo/discNo) : 0);
+			avrComm /= 1000;  // rounded to 3 decimal places
+			
+			rowPanel = new JPanel();
+			rowPanel.add(new JLabel("Average number of comments in a discussion"));
+			rowPanel.add(new JLabel(": " + avrComm));
+			middlePanel.add(rowPanel);
 			
 			JButton okBtn = new JButton("OK");
 			okBtn.addActionListener(this);
@@ -119,13 +152,15 @@ public class ReportDialog extends JDialog implements ActionListener
 				}
 			}
 			
-			if(subjectList.size() > 0)
+			subjNo = subjectList.size();
+			if(subjNo > 0)
 			{
 				minDisc = subjectList.elementAt(0).getAllDiscussions().size();
 				maxDisc = subjectList.elementAt(0).getAllDiscussions().size();
 				for(Subject sub : subjectList)
 				{
-					subjNo++;
+					discNo += sub.getAllDiscussions().size();
+					
 					if(sub.getAllDiscussions().size() < minDisc)
 						minDisc = sub.getAllDiscussions().size();
 					if(sub.getAllDiscussions().size() > maxDisc)
@@ -137,15 +172,12 @@ public class ReportDialog extends JDialog implements ActionListener
 						maxComm = sub.getAllDiscussions().elementAt(0).getAllComments().size();
 						for(Discussion dis : sub.getAllDiscussions())
 						{
-							discNo++;
+							commNo += dis.getAllComments().size();
+							
 							if(dis.getAllComments().size() < minComm)
 								minComm = dis.getAllComments().size();
 							if(dis.getAllComments().size() > maxComm)
 								maxComm = dis.getAllComments().size();
-							for(Comment com : dis.getAllComments())
-							{
-								commNo++;
-							}
 						}
 					}
 				}
